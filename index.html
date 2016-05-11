@@ -1,22 +1,36 @@
-<!DOCTYPE html>
-<html>
-<title>举头望明月</title>
-<head>
-	<meta http-equiv="Content-Type" content="index/html; charset=utf-8" />
-</head>
-<body>
-	<br>
-	<br>
-	<center><h1>这是我使用github pages搭建的个人站点。</h1></center>
-	<br>
-	<center><h2>小灰灰，欢乐颂里面你最喜欢哪个妹子</h2></center>
+---
+layout: page
+title: Ichennan
+titlename: Ichennan
+---
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">{{ site.locals.newest }}</div>
+      {% for post in paginator.posts %}
+      <a  href='{{ post.url }}' class="list-group-item pjaxlink clearfix">
+        {{post.title}}
+        <span class="badge">{{ post.date | date:"%Y-%m-%d" }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% for cate in site.cates %}
+  <div class="col-md-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">{{ cate }}</div>
+      {% for tag in site.tags %}
+      {% if tag[0] == cate %}
+      {% for post in tag[1] %}
+      <a  href='{{ post.url }}' class="list-group-item pjaxlink clearfix">
+        {{post.title}}
+        <span class="badge">{{ post.date | date:"%Y-%m-%d" }}</span>
+      </a>
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
-	<center><a href="https://www.baidu.com/"><font>百度一下</font></a></center>
-	<br>
-	<br>
-	<center><a href="linktext.html"><font color="blue">我的第二个页面</font></a></center>
-	<br>
-	<br>
-	<center><a href="laoluo.html">老罗android</a></center>
-</body>
-</html>
