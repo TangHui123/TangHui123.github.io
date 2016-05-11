@@ -1,0 +1,2140 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+     
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>   
+   
+
+    <script type="text/javascript" src="http://c.csdnimg.cn/pubfooter/js/tracking.js" charset="utf-8"></script>  
+
+    <script type="text/javascript">
+        var protocol = window.location.protocol;
+        document.write('<script type="text/javascript" src="' + protocol + '//csdnimg.cn/pubfooter/js/repoAddr2.js?v=' + Math.random() + '"></' + 'script>');
+    </script>
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <title>Android应用程序窗口（Activity）的测量（Measure）、布局（Layout）和绘制（Draw）过程分析 - 老罗的Android之旅
+        - 博客频道 - CSDN.NET</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="android中popupwindow弹出后，屏幕背景变成半透明这个效果很普通。实现的方法也很多。我使用的可能是最简单的一种，就是设置一下getWindows的透明度。不多说上代码/**	 * 设置添加屏幕的背景透明度	 * @param bgAlpha	 */	public void backgroundAlpha(float bgAlpha)	{		WindowManager." />
+    <script src="http://static.blog.csdn.net/scripts/jquery.js" type="text/javascript"></script>
+      <script type="text/javascript" src="http://static.blog.csdn.net/scripts/jquery-version.js"></script>
+    <script type="text/javascript" src="http://static.blog.csdn.net/scripts/ad.js?v=1.1"></script>
+        <!--new top-->
+       
+        <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css">
+        <!--new top-->
+    
+      <!-- ad begin -->
+         <script language="javascript" type="text/javascript" src="http://ads.csdn.net/js/tracking.js"></script>
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/default/css/style.css?v=1.1" />
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/Luoshengyang/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+</head>
+<body>
+    <!-- 广告位开始 -->
+        <ins data-revive-zoneid="149" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/luoshengyang">老罗的Android之旅</a></h2>
+            <h3>爱生活，爱Android</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+            
+                <li id="btnContents"><a href="http://blog.csdn.net/luoshengyang?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/luoshengyang?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/luoshengyang/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "Luoshengyang";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/luoshengyang";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+<a href="http://edu.csdn.net/huiyiCourse/detail/111
+">
+<font color=red>【免费公开课】C语言指针与汇编内存地址
+</font></a>
+&nbsp;&nbsp;&nbsp;
+<a href="http://blog.csdn.net/blogdevteam/article/details/51198465">
+<font color=blue>有奖试读—漫话程序员面试求职、升职加薪、创业与生活</font></a>
+&nbsp;&nbsp;&nbsp;
+<a href="http://huiyi.csdn.net/activity/product/goods_list?project_id=2928">
+<font color=red>chinapub读书会第8期：程序员代码面试揭秘</font></a>
+&nbsp;&nbsp;&nbsp;
+
+
+</font></a>
+</div>                        </div>
+                        
+
+
+
+<!-- 广告位开始 -->
+<ins data-revive-zoneid="72" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+<!-- 广告位结束 -->
+
+  
+<link href="http://static.blog.csdn.net/css/comment1.css" type="text/css" rel="stylesheet" />
+<link href="http://static.blog.csdn.net/css/style1.css" type="text/css" rel="stylesheet" />
+<script language='JavaScript' type='text/javascript' src='http://download.csdn.net/js/jquery.cookie.js'></script>
+<script type="text/javascript" src="http://c.csdnimg.cn/rabbit/search-service/main.js"></script>
+<link rel="stylesheet" href="http://static.blog.csdn.net/public/res-min/markdown_views.css?v=1.0" />
+<link rel="stylesheet" href="http://static.blog.csdn.net/css/category.css?v=1.0" />
+<script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+
+ <script type="text/javascript" src="http://static.blog.csdn.net/scripts/web-storage-cache.min.js"></script>
+
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/web-storage-cache.min.js"></script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/replace.min.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+           
+            var isBole = false;
+            
+          
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="/luoshengyang/article/details/8372924">
+        Android应用程序窗口（Activity）的测量（Measure）、布局（Layout）和绘制（Draw）过程分析            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/Activity' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">Activity</a><a href='http://www.csdn.net/tag/android' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">android</a><a href='http://www.csdn.net/tag/draw' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">draw</a><a href='http://www.csdn.net/tag/layout' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">layout</a><a href='http://www.csdn.net/tag/Measure' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">Measure</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2012-12-31 00:55</span>
+            <span class="link_view" title="阅读次数">61957人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(52)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('Android应用程序窗口（Activity）的测量（Measure）、布局（Layout）和绘制（Draw）过程分析','8372924');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(8372924,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+    <div class="embody"  style="display:none" id="embody">
+        <span class="embody_t">本文章已收录于：</span>
+        <div class="embody_c" id="lib" value="{&quot;err&quot;:0,&quot;msg&quot;:&quot;ok&quot;,&quot;data&quot;:[{&quot;name&quot;:&quot;Android知识库&quot;,&quot;url&quot;:&quot;http://lib.csdn.net/base/15?source=blogtop&quot;,&quot;logo&quot;:&quot;http://img.knowledge.csdn.net/upload/base/1455589744328_328.jpg&quot;}]}"></div>
+    </div>
+    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            var lib = eval("("+$("#lib").attr("value")+")");
+            var html = "";
+            if (lib.err == 0) {
+                $.each(lib.data, function (i) {
+                    var obj = lib.data[i];
+                    //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                    html += ' <a href="' + obj.url + '" target="_blank">';
+                    html += ' <img src="' + obj.logo + '">';
+                    html += ' <em><b>' + obj.name + '</b></em>';
+                    html += ' </a>';
+                });
+                if (html != "") {
+                    setTimeout(function () {
+                        $("#lib").html(html);
+                        /*
+                        var testhtml = "";
+                        testhtml += '<a href="#">';
+                        testhtml += '<img src="http://img.knowledge.csdn.net/upload/base/1455589744328_328.jpg">';
+                        testhtml += '<em>Android知识库</em>';
+                        testhtml += '</a>';
+                        $(".embody_c").html(testhtml);
+                        */
+                        $("#embody").show();
+                    }, 100);
+                }
+            }          
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('838604','Luoshengyang','top','8372924');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Android<em>（160）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/Luoshengyang/article/category/838604"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_838604">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+    <script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>  
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+<div id="article_content" class="article_content">
+<p><span style="color:black;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;在前面一篇文章中，我们分析了</span><span style="color:black;">Android</span><span style="color:black;">应用程序窗口的绘图表面的创建过程。</span><span style="color:black;">Android</span><span style="color:black;">应用程序窗口的绘图表面在创建完成之后，我们就可以从上到下地绘制它里面的各个视图了，即各个</span><span style="color:black;">UI</span><span style="color:black;">元素了。不过在绘制这些</span><span style="color:black;">UI</span><span style="color:black;">元素之前，我们还需要从上到下地测量它们实际所需要的大小，以及对它们的位置进行合适的安排，即对它们进行合适的布局。在本文中，我们就将详细地分析</span><span style="color:black;">Android</span><span style="color:black;">应用程序窗口的测量、布局以及绘制过程。</span></p><p><span style="color:black;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;从前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7846923">Android应用程序与SurfaceFlinger服务的关系概述和学习计划</a>这一系列的文章可以知道，Android应用程序窗口请求SurfaceFlinger服务创建了一个绘图表面之后，就可以接着请求为该绘图表面创建图形缓冲区，而当Android应用程序窗口往这些图形缓冲区填充好UI数据之后，就可以请求SurfaceFlinger服务将它们渲染到硬件帧缓冲区中去，这样我们就可以看到应用程序窗口的UI了。</span></p><p><span style="color:black;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Android应用程序窗口一般不会直接去操作分配给它的图形缓冲区，而是通过一些图形库API来操作。例如，在前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7691321">Android系统的开机画面显示过程分析</a>一文中，使用C++来开发的开机动画应用程序bootanimation，它是通过OpenGL提供的API来绘制UI的。对于使用Java来开发的Android应用程序来说，它们一般是使用<a target=_blank target="_blank" href="http://zh.wikipedia.org/wiki/Skia_Graphics_Library">Skia</a>图形库提供的API来绘制UI的。在Skia图库中，所有的UI都是绘制在画布（Canvas）上的，因此，Android应用程序窗口需要将它的图形缓冲区封装在一块画布里面，然后才可以使用Skia库提供的API来绘制UI。</span></p><p><span style="color:black;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们知道，一个Android应用程序窗口里面包含了很多UI元素，这些UI元素是以树形结构来组织的，即它们存在着父子关系，其中，子UI元素位于父UI元素里面，因此，在绘制一个Android应用程序窗口的UI之前，我们首先要确定它里面的各个子UI元素在父UI元素里面的大小以及位置。确定各个子UI元素在父UI元素里面的大小以及位置的过程又称为测量过程和布局过程。因此，Android应用程序窗口的UI渲染过程可以分为测量、布局和绘制三个阶段，如图1所示：</span></p><p style="text-align: center;"><span style="color:black;"><img alt="" src="http://img.my.csdn.net/uploads/201212/23/1356275187_5515.jpg" /><br /></span></p><p style="text-align: center;">图1 Android应用程序窗口渲染三步曲</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;从前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8245546">Android应用程序窗口（Activity）的视图对象（View）的创建过程分析</a>一文可以知道，Android应用程序窗口的顶层视图是一个类型为DecorView的UI元素，而从前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8303098">Android应用程序窗口（Activity）的绘图表面（Surface）的创建过程分析</a>一文的Step 3又可以知道，这个顶层视图最终是由ViewRoot类的成员函数performTraversals来启动测量、布局和绘制操作的，这三个操作分别由DecorView类的成员函数measure和layout以及ViewRoot类的成员函数draw来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;接下来，我们就分别从DecorView类的成员函数measure和layout以及ViewRoot类的成员函数draw开始，分析Android应用程序窗口的测量、布局和绘制过程。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. Android应用程序窗口的测量过程</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;DecorView类的成员函数measure是从父类View继承下来的，因此，我们就从View类的成员函数measure开始分析应用程序窗口的测量过程，如图2所示：</p><p style="text-align: center;"><img alt="" src="http://img.my.csdn.net/uploads/201212/24/1356360396_5233.jpg" /><br /></p><p style="text-align: center;">图2 Android应用程序窗口的测量过程</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个过程可以分为3个步骤，接下来我们就详细分析每一个步骤。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 1. View.measure</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_1_4822405" class="java" name="code">public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+    ......
+
+    int mPrivateFlags;
+    ......
+
+    int mOldWidthMeasureSpec = Integer.MIN_VALUE;
+    ......
+
+    int mOldHeightMeasureSpec = Integer.MIN_VALUE;
+    ......
+
+    public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
+        if ((mPrivateFlags &amp; FORCE_LAYOUT) == FORCE_LAYOUT ||
+                widthMeasureSpec != mOldWidthMeasureSpec ||
+                heightMeasureSpec != mOldHeightMeasureSpec) {
+
+            // first clears the measured dimension flag
+            mPrivateFlags &amp;= ~MEASURED_DIMENSION_SET;
+
+            ......
+
+            // measure ourselves, this should set the measured dimension flag back
+            onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+            // flag not set, setMeasuredDimension() was not invoked, we raise
+            // an exception to warn the developer
+            if ((mPrivateFlags &amp; MEASURED_DIMENSION_SET) != MEASURED_DIMENSION_SET) {
+                throw new IllegalStateException(&quot;onMeasure() did not set the&quot;
+                        + &quot; measured dimension by calling&quot;
+                        + &quot; setMeasuredDimension()&quot;);
+            }
+
+            mPrivateFlags |= LAYOUT_REQUIRED;
+        }
+
+        mOldWidthMeasureSpec = widthMeasureSpec;
+        mOldHeightMeasureSpec = heightMeasureSpec;
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/view/View.java中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数widthMeasureSpec和heightMeasureSpec用来描述当前正在处理的视图可以获得的最大宽度和高度。对于应用程序窗口的顶层视图来说，我们也可以认为这两个参数是用来描述应用程序窗口的宽度和高度。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;ViewRoot类的成员变量mPrivateFlags的类型为int，如果它的某一个位的值不等于0，那么就隐含着当前视图有一个相应的操作在等待执行中。ViewRoot类的另外两个成员变量mOldWidthMeasureSpec和mOldHeightMeasureSpec用来保存当前视图上一次可以获得的最大宽度和高度。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;当ViewRoot类的成员变量mPrivateFlags的FORCE_LAYOUT位不等于0时，就表示当前视图正在请求执行一次布局操作，这时候函数就需要重新测量当前视图的宽度和高度。此外，当参数widthMeasureSpec和heightMeasureSpec的值不等于ViewRoot类的成员变量mldWidthMeasureSpec和mOldHeightMeasureSpec的值时，就表示当前视图上一次可以获得的最大宽度和高度已经失效了，这时候函数也需要重新测量当前视图的宽度和高度。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;当View类的成员函数measure决定要重新测量当前视图的宽度和高度之后，它就会首先将成员变量mPrivateFlags的MEASURED_DIMENSION_SET位设置为0，接着再调用另外一个成员函数onMeasure来真正执行测量宽度和高度的操作。View类的成员函数onMeasure执行完成之后，需要再调用另外一个成员函数setMeasuredDimension来将测量好的宽度和高度设置到View类的成员变量mMeasuredWidth和mMeasuredHeight中，并且将成员变量mPrivateFlags的EASURED_DIMENSION_SET位设置为1。这个操作是强制的，因为当前视图最终就是通过View类的成员变量mMeasuredWidth和mMeasuredHeight来获得它的宽度和高度的。为了保证这个操作是强制的，View类的成员函数measure再接下来就会检查成员变量mPrivateFlags的EASURED_DIMENSION_SET位是否被设置为1了。如果不是的话，那么就会抛出一个类型为IllegalStateException的异常来。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;View类的成员函数measure最后就会把参数widthMeasureSpec和heightMeasureSpec的值保存在成员变量mldWidthMeasureSpec和mOldHeightMeasureSpec中，以便可以记录当前视图上一次可以获得的最大宽度和高度。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;View类的成员函数onMeasure一般是由其子类来重写的。例如，对于用来应用程序窗口的顶层视图的DecorView类来说，它是通过父类FrameLayout来重写祖父类View的成员函数onMeasure的。因此，接下来我们就分析FrameLayout类的成员函数onMeasure的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 2.&nbsp;rameLayout.onMeasure</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_2_678731" class="java" name="code">public class FrameLayout extends ViewGroup {
+    ......
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        final int count = getChildCount();
+
+        int maxHeight = 0;
+        int maxWidth = 0;
+
+        // Find rightmost and bottommost child
+        for (int i = 0; i &lt; count; i++) {
+            final View child = getChildAt(i);
+            if (mMeasureAllChildren || child.getVisibility() != GONE) {
+                measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);
+                maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
+                maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
+            }
+        }
+
+        // Account for padding too
+        maxWidth += mPaddingLeft + mPaddingRight + mForegroundPaddingLeft + mForegroundPaddingRight;
+        maxHeight += mPaddingTop + mPaddingBottom + mForegroundPaddingTop + mForegroundPaddingBottom;
+
+        // Check against our minimum height and width
+        maxHeight = Math.max(maxHeight, getSuggestedMinimumHeight());
+        maxWidth = Math.max(maxWidth, getSuggestedMinimumWidth());
+
+        // Check against our foreground's minimum height and width
+        final Drawable drawable = getForeground();
+        if (drawable != null) {
+            maxHeight = Math.max(maxHeight, drawable.getMinimumHeight());
+            maxWidth = Math.max(maxWidth, drawable.getMinimumWidth());
+        }
+
+        setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec),
+                resolveSize(maxHeight, heightMeasureSpec));
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/widget/FrameLayout.java中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;FrameLayout类是从ViewGroup类继承下来的，后者用来描述一个视图容器，它有一个类型为View的数组mChildren，里面保存的就是它的各个子视图。ViewGroup类所供了两个成员函数getChildCount和getChildAt，它们分别用来获得一个视图容器所包含的子视图的个数，以及获得每一个子视图。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;FrameLayout类的成员函数onMeasure首先是调用另一个成员函数measureChildWithMargins来测量每一个子视图的宽度和高度，并且找到这些子视图的最大宽度和高度值，保存在变量maxWidth和maxHeight 中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;FrameLayout类的成员函数onMeasure接着再将前面得到的宽度maxWidth和高度maxHeight分别加上当前视图所设置的Padding值，其中，（mPaddingLeft，mPaddingRight，mPaddingTop，mPaddingBottom&nbsp;）表示当前视图的内容区域的左右上下四条边分别到当前视图的左右上下四条边的距离，它们是父类View的四个成员变量，（mForegroundPaddingLeft，mForegroundPaddingRight，mForegroundPaddingTop，mForegroundPaddingBottom）表示当前视图的各个子视图所围成的区域的左右上下四条边到当前视视的前景区域的左右上下四条边的距离。从这里就可以看出，当前视图的内容区域的大小就等于前景区域的大小，而前景区域的大小大于等于各个子视图的所围成的区域，这是因为前景区域本来就是用来覆盖各个子视图所围成的区域的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 加上各个Padding值之后，得到的宽度maxWidth和高度maxHeight还不是最终的宽度和高度，还需要考虑以下两个因素：</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 1. 当前视图是否设置有最小宽度和高度。如果设置有的话，并且它们比前面计算得到的宽度maxWidth和高度maxHeight还要大，那么就将它们作为当前视图的宽度和高度值。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 2. 当前视图是否设置有前景图。如果设置有的话，并且它们比前面计算得到的宽度maxWidth和高度maxHeight还要大，那么就将它们作为当前视图的宽度和高度值。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 经过上述两步检查之后，FrameLayout类的成员函数onMeasure就得到了当前视图的宽度maxWidth和高度maxHeight。由于得到的宽度和高度又必须要限制在参数widthMeasureSpec和heightMeasureSpec所描述的宽度和高度规范之内，因此，FrameLayout类的成员函数onMeasure就会调用从View类继承下来的成员函数resolveSize来获得正确的大小。得到了当前视图的正确大小之后，FrameLayout类的成员函数onMeasure就可以调用从父类View继承下来的成员函数setMeasuredDimension来将它们为当前视图的大小了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 为了理解参数widthMeasureSpec和heightMeasureSpec的含义，我们继续分析View类的成员函数resolveSize的实现，如下所示：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_3_1933249" class="java" name="code">public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+    ......
+
+    public static int resolveSize(int size, int measureSpec) {
+        int result = size;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize =  MeasureSpec.getSize(measureSpec);
+        switch (specMode) {
+        case MeasureSpec.UNSPECIFIED:
+            result = size;
+            break;
+        case MeasureSpec.AT_MOST:
+            result = Math.min(size, specSize);
+            break;
+        case MeasureSpec.EXACTLY:
+            result = specSize;
+            break;
+        }
+        return result;
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件rameworks/base/core/java/android/view/View.java中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数measureSpec的值其实是由两部分内容来组成的，最高2位表示一个测量规范，而低30位表示一个宽度值或者高度值。测量规范有三种，分别是0、1和2，使用常量MeasureSpec.UNSPECIFIED、MeasureSpec.EXACTLY和MeasureSpec.AT_MOST来表示。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;当参数measureSpec描述的规范是MeasureSpec.UNSPECIFIED时，就表示当前视图没有指定它的大小测量模式，这时候就使用参数size的值；当参数measureSpec描述的规范是MeasureSpec.AT_MOST时，就表示当前视图的大小等于参数size和参数measureSpec所指定的值中的较小值；当参数measureSpec描述的规范是MeasureSpec.EXACTLY时，就表示当前视图的大小等于参数measureSpec中所指定的值。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;回到FrameLayout类的成员函数onMeasure中，我们再来看一下View类的成员函数setMeasuredDimension是如何设置当前视图的大小的，如下所示：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_4_9566697" class="java" name="code">public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+    ......
+
+    protected final void setMeasuredDimension(int measuredWidth, int measuredHeight) {
+        mMeasuredWidth = measuredWidth;
+        mMeasuredHeight = measuredHeight;
+
+        mPrivateFlags |= MEASURED_DIMENSION_SET;
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;这个函数定义在文件rameworks/base/core/java/android/view/View.java中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; View类的成员函数setMeasuredDimension首先将参数measuredWidth和measuredHeight的值保存在成员变量mMeasuredWidth和mMeasuredHeight中，用来作为当前视图的宽度和高度，并且将成员变量mPrivateFlags的位MEASURED_DIMENSION_SET设置为1，这样返回到前面的Step 1时，就不会抛出一个类型为IllegalStateException的异常了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;FrameLayout类的另一个成员函数measureChildWithMargins是从父类ViewGroup继承下来的，接下来我们就继续分析它的实现，以便可以了解一个视图容器的各个子视图的大小的测量过程。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 3. ViewGroup.measureChildWithMargins</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_5_8312962" class="java" name="code">public abstract class ViewGroup extends View implements ViewParent, ViewManager {
+    ......
+
+    protected void measureChildWithMargins(View child,
+            int parentWidthMeasureSpec, int widthUsed,
+            int parentHeightMeasureSpec, int heightUsed) {
+        final MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin
+                        + widthUsed, lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin
+                        + heightUsed, lp.height);
+
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件rameworks/base/core/java/android/view/ViewGroup.java中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数child用来描述当前要测量大小的子视图，参数parentWidthMeasureSpec和parentHeightMeasureSpec用来描述当前子视图可以获得的最大宽度和高度，参数widthUsed和heightUsed用来描述父窗口已经使用了的宽度和高度。ViewGroup类的成员函数measureChildWithMargins必须要综合考虑上述参数，以及当前正在测量的子视图child所设置的大小和Margin值，还有当前视图容器所设置的Padding值，来得到当前正在测量的子视图child的正确宽度childWidthMeasureSpec和高度childHeightMeasureSpec，这是通过调用ViewGroup类的另外一个成员函数getChildMeasureSpec来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 得到了当前正在测量的子视图child的正确宽度childWidthMeasureSpec和高度childHeightMeasureSpec之后，就可以调用它的成员函数measure来设置它的大小了，即执行前面Step 1的操作。注意，如果当前正在测量的子视图child描述的也是一个视图容器，那么它又会重复执行Step 2和Step 3的操作，直到它的所有子孙视图的大小都测量完成为止。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 至此，我们就分析完成Android应用程序窗口的测量过程了，接下来我们继续分析Android应用程序窗口的布局过程。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 2.&nbsp;Android应用程序窗口的布局过程<br /></p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;DecorView类的成员函数layout是从父类View继承下来的，因此，我们就从View类的成员函数layout开始分析应用程序窗口的布局过程，如图3所示：</p><p style="text-align: center;"><img alt="" src="http://img.my.csdn.net/uploads/201212/25/1356448764_8004.jpg" /><br /></p><p style="text-align: center;">图3&nbsp;Android应用程序窗口的布局过程</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 这个过程可以分为5个步骤，接下来我们就详细地分析每一个步骤。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; Step 1. View.layout</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_6_406514" class="java" name="code">public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+    ......
+ 
+    int mPrivateFlags;
+    ......
+
+    public final void layout(int l, int t, int r, int b) {
+        boolean changed = setFrame(l, t, r, b);
+        if (changed || (mPrivateFlags &amp; LAYOUT_REQUIRED) == LAYOUT_REQUIRED) {
+            ......
+
+            onLayout(changed, l, t, r, b);
+            mPrivateFlags &amp;= ~LAYOUT_REQUIRED;
+        }
+        mPrivateFlags &amp;= ~FORCE_LAYOUT;
+    }
+
+    ......
+}</pre><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/view/View.java中。<br /></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数l、t、r和b分别用来描述当前视图的左上右下四条边与其父视图的左上右下四条边的距离，这样当前视图通过这四个参数就可以知道它在父视图中的位置以及大小。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;View类的成员函数layout首先调用另外一个成员函数setFrame来设置当前视图的位置以及大小。设置完成之后，如果当前视图的大小或者位置与上次相比发生了变化，那么View类的成员函数setFrame的返回值changed就会等于true。在这种情况下，&nbsp;View类的成员函数layout就会继续调用另外一个成员函数onLayout重新布局当前视图的子视图。此外，如果此时View类的成员变量mPrivateFlags的LAYOUT_REQUIRED位不等于0，那么也表示当前视图需要重新布局它的子视图，因此，这时候View类的成员函数layout也会调用另外一个成员函数onLayout。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;当前视图的子视图都重新布局完成之后，View类的成员函数layout就可以将成员变量mPrivateFlags的LAYOUT_REQUIRED位设置为0了，因为此时当前视图及其子视图都已经执行了一次布局操作了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;View类的成员函数layout最后还会将成员变量mPrivateFlags的FORCE_LAYOUT位设置为0，也是因为此时当前视图及其子视图的布局已经是最新的了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;接下来，我们就继续分析View类的成员函数setFrame和onLayout的实现，以便可以了解当前视图及其子视图是如何执行布局操作的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 2. View.setFrame</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_7_232573" class="java" name="code">public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+    ......
+ 
+    int mPrivateFlags;
+    ......
+
+    int mViewFlags;
+    ......
+
+    protected int mLeft;
+    ......
+
+    protected int mRight;
+    ......
+
+    protected int mTop;
+    ......
+
+    protected int mBottom;
+    ......
+
+    private boolean mBackgroundSizeChanged;
+    ......
+
+    protected boolean setFrame(int left, int top, int right, int bottom) {
+        boolean changed = false;
+
+        ......
+
+        if (mLeft != left || mRight != right || mTop != top || mBottom != bottom) {
+            changed = true;
+
+            // Remember our drawn bit
+            int drawn = mPrivateFlags &amp; DRAWN;
+
+            // Invalidate our old position
+            invalidate();
+
+
+            int oldWidth = mRight - mLeft;
+            int oldHeight = mBottom - mTop;
+
+            mLeft = left;
+            mTop = top;
+            mRight = right;
+            mBottom = bottom;
+
+            mPrivateFlags |= HAS_BOUNDS;
+
+            int newWidth = right - left;
+            int newHeight = bottom - top;
+
+            if (newWidth != oldWidth || newHeight != oldHeight) {
+                onSizeChanged(newWidth, newHeight, oldWidth, oldHeight);
+            }
+
+            if ((mViewFlags &amp; VISIBILITY_MASK) == VISIBLE) {
+                // If we are visible, force the DRAWN bit to on so that
+                // this invalidate will go through (at least to our parent).
+                // This is because someone may have invalidated this view
+                // before this call to setFrame came in, therby clearing
+                // the DRAWN bit.
+                mPrivateFlags |= DRAWN;
+                invalidate();
+            }
+
+            // Reset drawn bit to original value (invalidate turns it off)
+            mPrivateFlags |= drawn;
+
+            mBackgroundSizeChanged = true;
+        }
+        return changed;
+    }
+
+    ......
+}</pre><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; 这个函数定义在文件frameworks/base/core/java/android/view/View.java中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; View类的成员变量mLeft、mRight、mTop和mBottom分别用来描述当前视图的左右上下四条边与其父视图的左右上下四条边的距离，如果它们的值与参数left、right、top和bottom的值不相等，那么就说明当前视图的大小或者位置发生变化了。这时候View类的成员函数setFrame就需要将参数left、right、top和bottom的值分别记录在成员变量mLeft、mRight、mTop和mBottom中。在记录之前，还会执行两个操作：</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 1. 将成员变量mPrivateFlags的DRAWN位记录在变量drawn中，并且调用另外一个成员函数invalidate来检查当前视图上次请求的UI绘制操作是否已经执行。如果已经执行了的话，那么就会再请求执行一个UI绘制操作，以便可以在修改当前视图的大小和位置之前，将当前视图在当前位置按照当前大小显示一次。在接下来的Step 3中，我们再详细分析View类的成员函数invalidate的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 2. 计算当前视图上一次的宽度oldWidth和oldHeight，以便接下来可以检查当前视图的大小是否发生了变化。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 当前视图距离父视图的边距一旦设置好之后，它就是一个具有边界的视图了，因此，View类的成员函数setFrame接着还会将成员变量mPrivateFlags的HAS_BOUNDS设置为1。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; View类的成员函数setFrame再接下来又会计算当前视图新的宽度newWidth和高度newHeight，如果它们与上一次的宽度oldWidth和oldHeight的值不相等，那么就说明当前视图的大小发生了变化，这时候就会调用另外一个成员函数onSizeChanged来让子类有机会处理这个变化事件。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;View类的成员函数setFrame接下来继续判断当前视图是否是可见的，即成员变量mViewFlags的VISIBILITY_MASK位的值是否等于VISIBLE。如果是可见的话，那么就需要将成员变量mPrivateFlags的DRAWN位设置为1，以便接下来可以调用另外一个成员函数invalidate来成功地执行一次UI绘制操作，目的是为了将当前视图马上显示出来。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; View类的成员变量mPrivateFlags的DRAWN位描述的是当前视图上一次请求的UI绘制操作是否已经执行过了。如果它的值等于1，就表示已经执行过了，否则的话，就表示还没在等待执行。前面第一次调用View类的成员函数invalidate来检查当前视图上次请求的UI绘制操作是否已经执行时，如果发现已经执行了，那么就会重新请求执行一次新的UI绘制操作，这时候会导致当前视图的成员变量mPrivateFlags的DRAWN位重置为0。注意，新请求执行的UI绘制只是为了在修改当前视图的大小以及大小之前，先将它在上一次设置的大小以及位置中绘制出来，这样就可以使得当前视图的大小以及位置出现平滑的变换。换句话说，新请求执行的UI绘制只是为了获得一个中间效果，它不应该影响当前视图的绘制状态，即不可以修改当前视图的成员变量mPrivateFlags的DRAWN位。因此，我们就需要在前面第一次调用View类的成员函数invalidate前，先将当前视图的成员变量mPrivateFlags的DRAWN位保存下来，即保存在变量drawn中，然后等到调用之后，再将变量drawn的值恢复到当前视图的成员变量mPrivateFlags的DRAWN位中去。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;另一方面，如果当前视图的大小和位置发生了变化，View类的成员函数setFrame还会将成员变量mBackgroundSizeChanged的值设置为true，以便可以表示当前视图的背景大小发生了变化。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;最后，View类的成员函数setFrame将变量changed的值返回给调用者，以便调用者可以知道当前视图的大小和位置是否发生了变化。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;接下来，我们继续分析View类的成员函数invalidate的实现，以便可以了解当前视图是如何执行一次UI绘制操作的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 3.&nbsp;View.invalidate</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_8_3754583" class="java" name="code">public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+    ......
+
+    protected ViewParent mParent;
+    ......
+ 
+    int mPrivateFlags;
+    ......    
+
+    public void invalidate() {
+        ......
+
+        if ((mPrivateFlags &amp; (DRAWN | HAS_BOUNDS)) == (DRAWN | HAS_BOUNDS)) {
+            mPrivateFlags &amp;= ~DRAWN &amp; ~DRAWING_CACHE_VALID;
+            final ViewParent p = mParent;
+            final AttachInfo ai = mAttachInfo;
+            if (p != null &amp;&amp; ai != null) {
+                final Rect r = ai.mTmpInvalRect;
+                r.set(0, 0, mRight - mLeft, mBottom - mTop);
+                // Don't call invalidate -- we don't want to internally scroll
+                // our own bounds
+                p.invalidateChild(this, r);
+            }
+        }
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;这个函数定义在文件frameworks/base/core/java/android/view/View.java中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;View类的成员函数invalidate首先检查成员变量mPrivateFlags的DRAWN位和HAS_BOUNDS位是否都被设置为1。如果是的话，那么就说明当前视图上一次请求执行的UI绘制操作已经执行完成了，这时候View类的成员函数invalidate才可以请求执行新的UI绘制操作。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;View类的成员函数invalidate在请求新的UI绘制操作之前，会将成员变量mPrivateFlags的DRAWN位和DRAWING_CACHE_VALID位重置为0，其中，后者表示当前视图正在缓存的一些绘图对象已经失效了，这是因为接下来就要重新开始绘制当前视图的UI了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;请求绘制当前视图的UI是通过调用View类的成员变量mParent所描述的一个ViewParent接口的成员函数invalidateChild来实现的。前面我们假设当前视图是应用程序窗口的顶层视图，即它是一个类型为DecoreView的视图，它的成员变量mParent指向的是与其所关联的一个ViewRoot对象。因此，绘制当前视图的UI的操作实际上是通过调用ViewRoot类的成员函数invalidateChild来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 注意，在调用ViewRoot类的成员函数invalidateChild的成员函数invalidateChild来绘制当前视图的UI之前，会将当前视图即将要绘制的区域记录在View类的成员变量mAttachInfo所描述的一个AttachInfo对象的成员变量mTmpInvalRect中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们就继续分析ViewRoot类的成员函数invalidateChild的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 4. ViewRoot.invalidateChild</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_9_4452695" class="java" name="code">public final class ViewRoot extends Handler implements ViewParent,
+        View.AttachInfo.Callbacks {
+    ......
+
+    public void invalidateChild(View child, Rect dirty) {
+        checkThread();
+        ......
+        if (mCurScrollY != 0 || mTranslator != null) {
+            mTempRect.set(dirty);
+            dirty = mTempRect;
+            if (mCurScrollY != 0) {
+               dirty.offset(0, -mCurScrollY);
+            }
+            if (mTranslator != null) {
+                mTranslator.translateRectInAppWindowToScreen(dirty);
+            }
+            if (mAttachInfo.mScalingRequired) {
+                dirty.inset(-1, -1);
+            }
+        }
+        mDirty.union(dirty);
+        if (!mWillDrawSoon) {
+            scheduleTraversals();
+        }
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/view/ViewRoot.java中。<br /><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;ViewRoot类的成员函数invalidateChild首先调用另外一个成员函数checkThread来检查当前正在执行的是否是一个UI线程。如果不是的话，ViewRoot类的成员函数checkThread就会抛出一个异常出来。这是因为所有的UI操作都必须要在UI线程中执行。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;ViewRoot类的成员函数invalidateChild接下来还会检查当前正在处理的应用程序窗口在Y轴上是否出现有滚动条，即成员变量mCurScrollY的值不等于0，&nbsp;或者前正在处理的应用程序窗口是否运行在兼容模式之下，即成员变量mTranslator的值不等于null。当一个应用程序窗口运行在兼容模式时，它显示出来的大小和它实际被设置的大小是不一样的，要经过相应的转换处理。对于上述这两种情况，ViewRoot类的成员函数invalidateChild都需要调整参数dirty所描述的一个需要重新绘制的区域的大小和位置。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;调整好参数dirty所描述的一个需要重新绘制的区域之后，&nbsp;ViewRoot类的成员函数invalidateChild就将它所描述的一个区域与成员变量mDirty所描述的一区域执行一个合并操作，并且将得到的新区域保存在成员变量mDirty中。从这个操作就可以看出，ViewRoot类的成员变量mDirty描述的就是当前正在处理的应用程序窗口下一次所要重新绘制的总区域。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;设置好当前正在处理的应用程序窗口下一次所要重新绘制的总区域之后，ViewRoot类的成员函数invalidateChild最后就检查成员变量mWillDrawSoon的值是否不等于true。如果ViewRoot类的成员mWillDrawSoon的值等于true的话，那么就说明UI线程的消息队列中已经有一个DO_TRAVERSAL消息在等待执行了，这时候就不需要调用ViewRoot类的成员函数scheduleTraversals来向UI线程的消息队列发送一个DO_TRAVERSAL消息了，否则的话，就需要调用ViewRoot类的成员函数scheduleTraversals来向UI线程的消息队列发送一个DO_TRAVERSAL消息。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;ViewRoot类的成员函数scheduleTraversals在前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8303098">Android应用程序窗口（Activity）的绘图表面（Surface）的创建过程分析</a>一文中已经分析过了，这里不再详述。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这一步执行完成之后，返回到前面的Step 1中，即View类的成员函数layout中，接下来它就会调用另外一个成员函数onLayout来重新布局当前视图的子视图的布局了。View类的成员函数onLayout是由子类来重写的，并且只有当该子类描述的是一个容器视图时，它才会重写父类View的成员函数onLayout。前面我们已经假设当前正在处理的是应用程序窗口的顶层视图，它的类型为DecorView，并且它描述的是一个容器视图，因此，接下来我们就会继续分析DecorView类的成员函数onLayout的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;事实上，DecorView类是通过FrameLayout类来间接继承View类的，并且它的成员函数onLayout是从FrameLayout类继承下来的，因此，接下来我们实际上要分析的是FrameLayout类的成员函数onLayout的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 5.&nbsp;FrameLayout.onLayout</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_10_134296" class="java" name="code">public class FrameLayout extends ViewGroup {
+    ......
+
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        final int count = getChildCount();
+
+        final int parentLeft = mPaddingLeft + mForegroundPaddingLeft;
+        final int parentRight = right - left - mPaddingRight - mForegroundPaddingRight;
+
+        final int parentTop = mPaddingTop + mForegroundPaddingTop;
+        final int parentBottom = bottom - top - mPaddingBottom - mForegroundPaddingBottom;
+
+        mForegroundBoundsChanged = true;
+
+        for (int i = 0; i &lt; count; i++) {
+            final View child = getChildAt(i);
+            if (child.getVisibility() != GONE) {
+                final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+
+                final int width = child.getMeasuredWidth();
+                final int height = child.getMeasuredHeight();
+
+                int childLeft = parentLeft;
+                int childTop = parentTop;
+
+                final int gravity = lp.gravity;
+
+                if (gravity != -1) {
+                    final int horizontalGravity = gravity &amp; Gravity.HORIZONTAL_GRAVITY_MASK;
+                    final int verticalGravity = gravity &amp; Gravity.VERTICAL_GRAVITY_MASK;
+
+                    switch (horizontalGravity) {
+                        case Gravity.LEFT:
+                            childLeft = parentLeft + lp.leftMargin;
+                            break;
+                        case Gravity.CENTER_HORIZONTAL:
+                            childLeft = parentLeft + (parentRight - parentLeft - width) / 2 +
+                                    lp.leftMargin - lp.rightMargin;
+                            break;
+                        case Gravity.RIGHT:
+                            childLeft = parentRight - width - lp.rightMargin;
+                            break;
+                        default:
+                            childLeft = parentLeft + lp.leftMargin;
+                    }
+                    switch (verticalGravity) {
+                        case Gravity.TOP:
+                            childTop = parentTop + lp.topMargin;
+                            break;
+                        case Gravity.CENTER_VERTICAL:
+                            childTop = parentTop + (parentBottom - parentTop - height) / 2 +
+                                    lp.topMargin - lp.bottomMargin;
+                            break;
+                        case Gravity.BOTTOM:
+                            childTop = parentBottom - height - lp.bottomMargin;
+                            break;
+                        default:
+                            childTop = parentTop + lp.topMargin;
+                    }
+                }
+
+                child.layout(childLeft, childTop, childLeft + width, childTop + height);
+            }
+        }
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/widget/FrameLayout.java中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;FrameLayout类的成员变量mPaddingLeft、mPaddingRight、mPaddingTop、mPaddingBottom和mForegroundPaddingLeft、mForegroundPaddingRight、mForegroundPaddingTop、mForegroundPaddingBottom的含义我们在前面分析Android应用程序窗品的测量过程时已经解释过了，它们描述的是当前视图的内边距，而参数left、top、right和bottom描述的是当前视图的外边距，即它与父窗口的边距。通过上述这些参数，我们就可以得到当前视图的子视图所能布局在的区域。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;FrameLayout类的成员函数onLayout通过一个for循环来布局当前视图的每一个子视图。如果一个子视图child是可见的，那么FrameLayout类的成员函数onLayout就会根据当前视图可以用来显示子视图的区域以及它所设置的gravity属性来得到它在应用程序窗口中的左上角位置（childeLeft，childTop）。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;当一个子视图child在应用程序窗口中的左上角位置确定了之后，再结合它在前面的测量过程中所确定的宽度width和高度height，我们就可以完全地确定它在应用程序窗口中的布局了，即可以调用它的成员函数layout来设置它的位置和大小了，这刚好就是前面的Step 1所执行的操作。注意，如果当前正在布局的子视图child描述的也是一个视图容器，那么它又会重复执行Step 5的操作，直到它的所有子孙视图都布局完成为止。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;至此，我们就分析完成Android应用程序窗口的布局过程了，接下来我们继续分析Android应用程序窗口的绘制过程。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; 3.&nbsp;Android应用程序窗口的绘制过程</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;ViewRoot类的成员函数draw首先会创建一块画布，接着再在画布上绘制Android应用程序窗口的UI，最后再将画布的内容交给SurfaceFlinger服务来渲染，这个过程如图4所示：</p><p style="margin: 4px 0px; padding: 2px 0px; text-align: center;"><img alt="" src="http://img.my.csdn.net/uploads/201212/29/1356756550_3597.jpg" width="614" /><br /></p><p style="margin: 4px 0px; padding: 2px 0px; text-align: center;">图4 Android应用程序窗口的绘制过程</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个过程可以分为14个步骤，接下来我们就详细分析每一个步骤。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 1. ViewRoot.draw</p><p style="margin: 4px 0px; padding: 2px 0px;"></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_11_8880560" class="java" name="code">public final class ViewRoot extends Handler implements ViewParent,
+        View.AttachInfo.Callbacks {
+    ......
+
+    private void draw(boolean fullRedrawNeeded) {
+        Surface surface = mSurface;
+        ......
+
+        int yoff;
+        final boolean scrolling = mScroller != null &amp;&amp; mScroller.computeScrollOffset();
+        if (scrolling) {
+            yoff = mScroller.getCurrY();
+        } else {
+            yoff = mScrollY;
+        }
+        if (mCurScrollY != yoff) {
+            mCurScrollY = yoff;
+            fullRedrawNeeded = true;
+        }
+        float appScale = mAttachInfo.mApplicationScale;
+        boolean scalingRequired = mAttachInfo.mScalingRequired;
+
+        Rect dirty = mDirty;
+        ......
+
+        if (mUseGL) {
+            if (!dirty.isEmpty()) {
+                Canvas canvas = mGlCanvas;
+                if (mGL != null &amp;&amp; canvas != null) {
+                    ......
+
+                    int saveCount = canvas.save(Canvas.MATRIX_SAVE_FLAG);
+                    try {
+                        canvas.translate(0, -yoff);
+                        if (mTranslator != null) {
+                            mTranslator.translateCanvas(canvas);
+                        }
+                        canvas.setScreenDensity(scalingRequired
+                                ? DisplayMetrics.DENSITY_DEVICE : 0);
+                        mView.draw(canvas);
+                        ......
+                    } finally {
+                        canvas.restoreToCount(saveCount);
+                    }
+
+                    ......
+                }
+            }
+            if (scrolling) {
+                mFullRedrawNeeded = true;
+                scheduleTraversals();
+            }
+            return;
+        }
+
+        if (fullRedrawNeeded) {
+            ......
+            dirty.union(0, 0, (int) (mWidth * appScale + 0.5f), (int) (mHeight * appScale + 0.5f));
+        }
+
+        ......
+
+        if (!dirty.isEmpty() || mIsAnimating) {
+            Canvas canvas;
+            try {
+                ......
+                canvas = surface.lockCanvas(dirty);
+
+                ......
+            } catch (Surface.OutOfResourcesException e) {
+                ......
+                return;
+            } catch (IllegalArgumentException e) {
+                ......
+                return;
+            }
+
+            try {
+                if (!dirty.isEmpty() || mIsAnimating) {
+                    .....
+
+                    mView.mPrivateFlags |= View.DRAWN;
+
+                    ......
+                    int saveCount = canvas.save(Canvas.MATRIX_SAVE_FLAG);
+                    try {
+                        canvas.translate(0, -yoff);
+                        if (mTranslator != null) {
+                            mTranslator.translateCanvas(canvas);
+                        }
+                        canvas.setScreenDensity(scalingRequired
+                                ? DisplayMetrics.DENSITY_DEVICE : 0);
+                        mView.draw(canvas);
+                    } finally {
+                        ......
+                        canvas.restoreToCount(saveCount);
+                    }
+
+                    ......
+                }
+
+            } finally {
+                surface.unlockCanvasAndPost(canvas);
+            }
+        }
+
+        ......
+
+        if (scrolling) {
+            mFullRedrawNeeded = true;
+            scheduleTraversals();
+        }
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/view/ViewRoot.java中。<p></p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;ViewRoot类的成员函数draw的执行流程如下所示：</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. 将成员变量mSurface所描述的应用程序窗口的绘图表面保存在变量surface中，以便接下来可以通过变量surface来操作应用程序窗口的绘图表面。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. 调用成员变量mScroller所描述的一个Scroller对象的成员函数computeScrollOffset来计算应用程序窗口是否处于正在滚动的状态中。如果是的话，那么得到的变量scrolling就会等于true，这时候调用成员变量mScroller所描述的一个Scroller对象的成员函数getCurrY就可以得到应用程序窗口在Y轴上的即时滚动位置yoff。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;3. 成员变量mScrollY用来描述应用程序窗口下一次绘制时在Y轴上应该滚动到的位置，因此，如果应用程序窗口不是处于正在滚动的状态，那么它在下一次绘制时，就应该直接将它在Y轴上的即时滚动位置yoff设置为mScrollY。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;4. 成员变量mCurScrollY用来描述应用程序窗口上一次绘制时在Y轴上的滚动位置，如果它的值不等变量yoff的值，那么就表示应用程序窗口在Y轴上的滚动位置发生变化了，这时候就需要将变量yoff的值保存在成员变量mCurScrollY中，并且将参数fullRedrawNeeded的设置为true，表示要重新绘制应用程序窗口的所有区域。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;5. 成员变量mAttachInfo所描述的一个AttachInfo对象的成员变量mScalingRequired表示应用程序窗口是否正在请求进行大小缩放，如果是的话，那么所请求的大小缩放因子就保存在这个AttachInfo对象的另外一个成员变量mApplicationScale中。函数将这两个值保存在变量scalingRequired和appScale中，以便接下来可以使用。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;6. 成员变量mDirty描述的是一个矩形区域，表示应用程序窗口的脏区域，即需要重新绘制的区域。函数将这个脏区域保存变量dirty中，以便接下来可以使用。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;7. 成员变量mUseGL用来描述应用程序窗口是否直接使用OpenGL接口来绘制UI。当应用程序窗口的绘图表面的内存类型等于WindowManager.LayoutParams.MEMORY_TYPE_GPU时，那么就表示它需要使用OpenGL接口来绘制UI，以便可以利用GPU来绘制UI。当应用程序窗口需要直接使用OpenGL接口来绘制UI时，另外一个成员变量mGlCanvas就表示应用程序窗口的绘图表面所使用的画布，这块画布同样是通过OpenGL接口来创建的。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;8. 当应用程序窗口需要直接使用OpenGL接口来绘制UI时，函数接下来就会将它的UI绘制在成员变量mGlCanvas所描述的一块画布上，这是通过调用成员变量mView所描述的一个类型为DecorView的顶层视图的成员函数draw来实现的。注意，在绘制之前，还需要对画布进行适当的转换：A. 设置画布在Y轴上的偏移值yoff，以便可以正确反映应用程序窗口的滚动状态；B. 如果成员变量mTranslator的值不等于null，即它指向了一个Translator对象，那么就说明应用程序窗口运行在兼容模式下，这时候就需要相应对画布进行变换，以便可以正确反映应用程序窗口的大小；C. 当变量scalingRequired的值等于true时，同样说明应用程序窗口是运行在兼容模式下，这时候就需要修改画布在兼容模式下的点密度，以便可以正确地反映应用程序窗口的分辨率，注意，这时候屏幕在兼容模式下的点密度保存在DisplayMetrics类的静态成员变量DENSITY_DEVICE中。由于上述画布的转换操作只针对当前的这一次绘制操作有效，因此，函数就需要在绘制之后，调用画布的成员函数save来保存它在转换前的矩阵变换堆栈状态，以便在绘制完成之后，可以调用画布的成员函数restoreToCount来恢复之前的矩阵变换堆栈状态。<br /></p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; 9.&nbsp;使用OpenGL接口来绘制完成UI后，如果变量scrolling的值等于true，即应用程序窗口是处于正在滚动的状态，那么就意味着应用程序窗口接下来还需要马上进行下一次重绘，而且是所有的区域都需要重绘，因此，函数接下来就会将成员变量mFullRedrawNeeded的值设置为true，并且调用另外一个成员函数scheduleTraversals来请求执行下一次的重绘操作。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp;10. 以下的步骤针适用于使用非OpenGL接口来绘制UI的情况，也是本文所要关注的重点。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp;11. 参数fullRedrawNeeded用来描述是否需要绘制应用程序窗口的所有区域。如果需要的话，那么就会将应用程序窗口的脏区域的大小设置为整个应用程序窗口的大小（0，0，mWidth，mHeight），其中，成员变量mWidth和mHeight表示应用程序窗口的宽度和高度。注意，如果应用程序窗口的大小被设置了一个缩放因子，即变量appScale的值不等于1，那么就需要将应用程序窗口的宽度mWidth和高度mHeight乘以这个缩放因子，然后才可以得到应用程序窗口的实际大小。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp;12. 经过前面的一系列计算之后，如果应用程序窗口的脏区域dirty不等于空，或者应用程序窗口在正处于动画状态，即成员变量mIsAnimating的值等于true，那么函数接下来就需要重新绘制应用程序窗口的UI了。在绘制之前，首先会调用用来描述应用程序窗口的绘图表面的一个Surface对象surface的成员函数lockCanvas来创建一块画布canvas。有了这块画布之后，接下来就可以调用成员变量mView所描述的一个类型为DecorView的顶层视图的成员函数draw来在上面绘制应用程序窗口的UI了。&nbsp;与前面的第8步一样，在绘制之前，还需要对画布进行适当的A、B和C转换，以及需要在绘制之后恢复画布在绘制之前的矩阵变换堆栈状态。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp;13. 绘制完成之后，应用程序窗口的UI就都体现在前面所创建的画布canvas上了，因此，这时候就需要将它交给SurfaceFlinger服务来渲染，这是通过调用用来描述应用程序窗口的绘图表面的一个Surface对象surface的成员函数unlockCanvasAndPost来实现的。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp;14. 在请求SurfaceFlinger服务渲染应用程序窗口的UI之后，函数同样是需要判断变量scrolling的值是否等于true。如果等于的话，那么就与前面的第9步一样，函数需要将成员变量mFullRedrawNeeded的值设置为true，并且调用另外一个成员函数scheduleTraversals来请求执行下一次的重绘操作。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; 在本文中，我们只关注使用非OpenGL接口来绘制应用程序窗口的UI的步骤，其中，第12步和第13步是关键所在。第12步调用了Java层的Surface类的成员函数lockCanvas来为应用程序窗口的绘图表面创建了一块画布，并且调用了DecorView类的成员函数draw来在这块画布上绘制了应用程序窗口的UI，而第13步调用了Java层的Surface类的成员函数unlockCanvasAndPost来将前面已经绘制了应用程序窗口UI的画布交给SurfaceFlinger服务来渲染。接下来，我们就分别分析Java层的Surface类的成员函数lockCanvas、DecorView类的成员函数draw和Java层的Surface类的成员函数unlockCanvasAndPost的实现。</p><p style="margin: 4px 0px; padding: 2px 0px;">&nbsp;&nbsp; &nbsp; &nbsp; Step 2.&nbsp;Surface.lockCanvas</p><p style="margin: 4px 0px; padding: 2px 0px;"></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_12_4595181" class="java" name="code">public class Surface implements Parcelable {
+    ......
+
+    public Canvas lockCanvas(Rect dirty) throws OutOfResourcesException, IllegalArgumentException
+    {
+        /* the dirty rectangle may be expanded to the surface's size, if
+         * for instance it has been resized or if the bits were lost, since
+         * the last call.
+         */
+        return lockCanvasNative(dirty);
+    }
+
+    private native Canvas lockCanvasNative(Rect dirty);
+
+    ......
+} </pre><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/view/Surface.java中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Surface类的成员函数lockCanvas调用另外一个成员函数lockCanvasNative来创建一块画布。Surface类的成员函数lockCanvasNative是一个JNI方法，它是由C++层的函数Surface_lockCanvas来实现的，如下所示：</p><p><span style="font-family: monospace;"><span style="white-space: pre;"><span style="font-family:Arial, Helvetica, sans-serif;"><span style="white-space: normal;"></span></span></span></span></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_13_4736885" class="cpp" name="code">static jobject Surface_lockCanvas(JNIEnv* env, jobject clazz, jobject dirtyRect)  
+{  
+    const sp&lt;Surface&gt;&amp; surface(getSurface(env, clazz));  
+    ......  
+  
+    // get dirty region  
+    Region dirtyRegion;  
+    if (dirtyRect) {  
+        Rect dirty;  
+        dirty.left  = env-&gt;GetIntField(dirtyRect, ro.l);  
+        dirty.top   = env-&gt;GetIntField(dirtyRect, ro.t);  
+        dirty.right = env-&gt;GetIntField(dirtyRect, ro.r);  
+        dirty.bottom= env-&gt;GetIntField(dirtyRect, ro.b);  
+        if (!dirty.isEmpty()) {  
+            dirtyRegion.set(dirty);  
+        }  
+    }   
+    ......  
+  
+    Surface::SurfaceInfo info;  
+    status_t err = surface-&gt;lock(&amp;info, &amp;dirtyRegion);  
+    ......  
+  
+    // Associate a SkCanvas object to this surface  
+    jobject canvas = env-&gt;GetObjectField(clazz, so.canvas);  
+    ......  
+  
+    SkCanvas* nativeCanvas = (SkCanvas*)env-&gt;GetIntField(canvas, no.native_canvas);  
+    SkBitmap bitmap;  
+    ......  
+    if (info.w &gt; 0 &amp;&amp; info.h &gt; 0) {  
+        bitmap.setPixels(info.bits);  
+    } else {  
+        // be safe with an empty bitmap.  
+        bitmap.setPixels(NULL);  
+    }  
+    ......  
+  
+    SkRegion clipReg;  
+    if (dirtyRegion.isRect()) { // very common case  
+        const Rect b(dirtyRegion.getBounds());  
+        clipReg.setRect(b.left, b.top, b.right, b.bottom);  
+    } else {  
+        size_t count;  
+        Rect const* r = dirtyRegion.getArray(&amp;count);  
+        while (count) {  
+            clipReg.op(r-&gt;left, r-&gt;top, r-&gt;right, r-&gt;bottom, SkRegion::kUnion_Op);  
+            r++, count--;  
+        }  
+    }  
+  
+    nativeCanvas-&gt;clipRegion(clipReg);  
+  
+    int saveCount = nativeCanvas-&gt;save();
+    env-&gt;SetIntField(clazz, so.saveCount, saveCount);  
+  
+    if (dirtyRect) {  
+        const Rect&amp; bounds(dirtyRegion.getBounds());  
+        env-&gt;SetIntField(dirtyRect, ro.l, bounds.left);  
+        env-&gt;SetIntField(dirtyRect, ro.t, bounds.top);  
+        env-&gt;SetIntField(dirtyRect, ro.r, bounds.right);  
+        env-&gt;SetIntField(dirtyRect, ro.b, bounds.bottom);  
+    }  
+  
+    return canvas;  
+}  </pre><p></p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/jni/android_view_Surface.cpp中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数clazz指向的是一个Java层的Surface对象。从前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8303098">Android应用程序窗口（Activity）的绘图表面（Surface）的创建过程分析</a>一文可以知道，每一个Java层的Surface对象在C++层都对应有一个Surface对象。因此，函数首先调用另外一个函数getSurface来获得与参数clazz所对应的C++层的Surface对象surface。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数dirtyRect指向的是一个Java层的Rect对象，它描述的是应用程序窗口即将要重绘的一块矩形区域，函数接下来就将它所描述的矩形区域转换成一个C++层的Region对象dirtyRegion来表示。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;函数接下来就调用前面所获得的C++层的Surface对象surface的成员函数lock来获得一个图形缓冲区，这个图形缓冲区使用一个SurfaceInfo对象info来描述，其中，图形缓冲区的地址就保存在它的成员变量bits中。<br /></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;获得图形缓冲区之后，我们就可以在上面绘制应用程序窗口的UI了。由于Java层的应用程序窗口是通Skia图形库来绘制应用程序窗口的UI的，而Skia图形库在绘制UI时，是需要一块画布的，因此，函数接下来就会将前面所获得的图形缓冲区封装在一块画布中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;从前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8303098">Android应用程序窗口（Activity）的绘图表面（Surface）的创建过程分析</a>一文还可以知道，每一个Java层的Surface对象内部都有一块画布，这块画布是通过它的成员变量mCanvas所指向的一个Java层的CompatibleCanvas对象来描述的。so是一个类型为so_t的结构体，它的成员变量canvas描述的是Java层的Surface类的成员变量mCanva在类中的偏移量，因此，通过这个偏移量就可以获得参数clazz所指向的一个Java层的Surface对象的内部的一块类型为CompatibleCanvas的画布canvas。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;画布canvas的类型为Java层的CompatibleCanvas，它是从Canvas类继承下来的。Canvas类有一个成员变量mNativeCanvas，它指向的是一个C++层的SkCanvas对象，这个C++层的SkCanvas对象描述的就是Skia图形库绘制应用程序窗口UI时所需要的画布。no是一个类型为no_t的结构体，它的成员变量native_canvas描述的是Java层的Canvas类的成员变量mNativeCanvas在类中的偏移量，因此，通过这个偏移量就可以获得变量canvas所指向的一个Java层的CompatibleCanvas对象的内部的一块类型为SkCanvas的画布nativeCanvas。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 获得了Skia图形库所需要的画布nativeCanvas之后，函数就可以将前面所获得的图形缓冲区的地址，即SurfaceInfo对象info的成员变量bits封装到它内部去了，这是通过调用它的成员函数setPixels来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 函数接下来还会设置画布nativeCanvas的裁剪区域。这个裁剪区域是通过Region对象dirtyRegion来描述的，不过Skia图形库需要使用另外一个类型为SkRegion的对象clipReg来描述它。Region对象dirtyRegion所描述的区域有可能是一个矩形区域，也可能是一个不规则的区域。如果Region对象dirtyRegion描述的是一个矩形区域，那么就可以直接将这个矩形区域设置到SkRegion的对象clipReg里面去。如果Region对象dirtyRegion描述的是一个不规则区域，那么这个不规则区域就是由一系列的矩形小区域来描述的，这时候就将这些矩形小区域合并起来，并且设置到kRegion的对象clipReg里面去。&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;设置好SkRegion的对象clipReg所包含的区域之后，函数就可以调用前面得到的SkCanvas画布nativeCanvas的成员函数clipRegion来将它设置为自己的裁剪区域了，接下来函数还会将该裁剪区域所围成的一个矩形区域的位置和大小设置到参数dirtyRect所描述的一个Java层的Rect对象中去，以便调用者可以知道现在正在创建的画布的大小。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 函数在将与C++层的SkCanvas画布nativeCanvas所关联的一个Java层的CompatibleCanvas画布canvas返回给调用者之前，还会将画布的当前堆栈状态保存下来，以便在绘制完成应用程序窗口的UI之后，可以恢复回来，这是通过调用C++层的SkCanvas画布nativeCanvas的成员函数save来实现的。画布的当前堆栈状态是通过一个整数来描述的，这个整数即为C++层的SkCanvas画布nativeCanvas的成员函数save的返回值saveCount，它会被保存在参数clazz所描述的一个Java层的Surface对象的成员变量mSaveCount中，等到应用程序窗口的UI绘制完成之后，就可以通过这个整数来恢复画布的堆栈状态了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们继续分析C++层的Surface类的成员函数lock的实现，以便可以了解用来创建绘制应用程序窗口UI所需要的画布的图形缓冲区是如何获得的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 3. Surface.lock</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_14_2926742" class="cpp" name="code">status_t Surface::lock(SurfaceInfo* other, Region* dirtyIn, bool blocking)
+{
+    ......
+
+    if (mApiLock.tryLock() != NO_ERROR) {
+        ......
+        return WOULD_BLOCK;
+    }
+
+    /* Here we're holding mApiLock */
+
+    if (mLockedBuffer != 0) {
+        ......
+        mApiLock.unlock();
+        return INVALID_OPERATION;
+    }
+
+    // we're intending to do software rendering from this point
+    setUsage(GRALLOC_USAGE_SW_READ_OFTEN | GRALLOC_USAGE_SW_WRITE_OFTEN);
+
+    android_native_buffer_t* out;
+    status_t err = dequeueBuffer(&amp;out);
+    ......
+    if (err == NO_ERROR) {
+        sp&lt;GraphicBuffer&gt; backBuffer(GraphicBuffer::getSelf(out));
+        err = lockBuffer(backBuffer.get());
+        ......
+        if (err == NO_ERROR) {
+            const Rect bounds(backBuffer-&gt;width, backBuffer-&gt;height);
+            const Region boundsRegion(bounds);
+            Region scratch(boundsRegion);
+            Region&amp; newDirtyRegion(dirtyIn ? *dirtyIn : scratch);
+            newDirtyRegion &amp;= boundsRegion;
+
+            // figure out if we can copy the frontbuffer back
+            const sp&lt;GraphicBuffer&gt;&amp; frontBuffer(mPostedBuffer);
+            const bool canCopyBack = (frontBuffer != 0 &amp;&amp;
+                    backBuffer-&gt;width  == frontBuffer-&gt;width &amp;&amp;
+                    backBuffer-&gt;height == frontBuffer-&gt;height &amp;&amp;
+                    backBuffer-&gt;format == frontBuffer-&gt;format &amp;&amp;
+                    !(mFlags &amp; ISurfaceComposer::eDestroyBackbuffer));
+
+            ......
+
+            if (canCopyBack) {
+                // copy the area that is invalid and not repainted this round
+                const Region copyback(mOldDirtyRegion.subtract(newDirtyRegion));
+                if (!copyback.isEmpty())
+                    copyBlt(backBuffer, frontBuffer, copyback);
+            } else {
+                // if we can't copy-back anything, modify the user's dirty
+                // region to make sure they redraw the whole buffer
+                newDirtyRegion = boundsRegion;
+            }
+
+            ......
+
+            void* vaddr;
+            status_t res = backBuffer-&gt;lock(
+                    GRALLOC_USAGE_SW_READ_OFTEN | GRALLOC_USAGE_SW_WRITE_OFTEN,
+                    newDirtyRegion.bounds(), &amp;vaddr);
+
+            ......
+
+            mLockedBuffer = backBuffer;
+            other-&gt;w      = backBuffer-&gt;width;
+            other-&gt;h      = backBuffer-&gt;height;
+            other-&gt;s      = backBuffer-&gt;stride;
+            other-&gt;usage  = backBuffer-&gt;usage;
+            other-&gt;format = backBuffer-&gt;format;
+            other-&gt;bits   = vaddr;
+        }
+    }
+    mApiLock.unlock();
+    return err;
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; 这个函数定义在文件frameworks/base/libs/surfaceflinger_client/Surface.cpp中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; Surface类的成员变量mApiLock是一个类型为Mutex的互斥锁，它是用来保证Surface类的成员函数lock是线程安全的。如果调用Surface类的成员变量mApiLock所描述的一个Mutex对象的成员函数tryLock的返回值不等于NO_ERROR，那么就说明这个Mutex对象已经被另外一个线程获得了，因此，这时候函数就直接返回一个错误码WOULD_BLOCK给调用者了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Surface类的成员变量mLockedBuffer的类型为GraphicBuffer，如果它的值不等于0，那么它指向的就是应用程序窗口当前正在使用的图形缓冲区。如果应用程序窗口正在使用一个图形缓冲区，那么它是不可以再请求分配另一个图形缓冲区的，因此，当Surface类的成员变量mLockedBuffer的值不等于0时，函数就直接返回一个错误码INVALID_OPERATION给调用者了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 通过了前面的检查之后，Surface类的成员函数lock接下来就开始要分配一个图形缓冲区了，不过在分配之后，首先调用另外一个成员函数setUsage来将当前正在处理的Surface对象所描述的应用程序窗口的绘图表面的属性设置为（GRALLOC_USAGE_SW_READ_OFTEN | GRALLOC_USAGE_SW_WRITE_OFTEN），表示该应用程序窗口的UI是需要通过软件方式来渲染的，这是相对于使用GPU来渲染而言的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;Surface类的成员函数lock接下来就调用另外一个成员函数dequeueBuffer来获得一个新的图形缓冲区了，这个新的图形缓冲区使用一个android_native_buffer_t对象out来描述的。在前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7932268">Android应用程序请求SurfaceFlinger服务渲染Surface的过程分析</a>一文中，我们已经分析过Surface类的成员函数dequeueBuffer的实现了，它主要就是请求SurfaceFlinger服务来分配一个图形缓冲区。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 前面获得的android_native_buffer_t对象out接下来又会被封装成一个GraphicBuffer对象backBuffer，这样，Surface类的成员函数lock接下来就会通过GraphicBuffer对象backBuffer来访问前面所获得的图形缓冲区。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Surface类是使用一种称为双缓冲的技术来渲染应用程序窗口的UI的。这种双缓冲技术需要两个图形缓冲区，其中一个称为前端缓冲区，另外一个称为后端缓冲区。前端缓冲区是正在渲染的图形缓冲区，而后端缓冲区是接下来要渲染的图形缓冲区，它们分别通过Surface类的成员变量mPostedBuffer和mLockedBuffer所指向的两个GraphicBuffer对象来描述。前面所获得的图形缓冲区backBuffer是作为后端缓冲区来使用的，即接下来它所指向的图形缓冲区也需要保存在Surface类的成员变量mLockedBuffer中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 在将图形缓冲区backBuffer返回给调用者之前，Surface类的成员函数lock还需要对它进行进一步的处理，即判断是否需要前端缓冲区mPostedBuffer的内容拷贝回它里面去，以便可以支持部分更新应用程序窗口UI的功能。在满足以下三个条件下，Surface类的成员函数lock可以将前端缓冲区的内容拷贝到后端缓冲区中去：</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 1.&nbsp;前端缓冲区的内容拷贝到后端缓冲区所描述的区域的宽度和高度相同。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 2.&nbsp;前端缓冲区和后端缓冲区的像素格式相同。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 3. 应用程序窗口绘图表面的属性值mFlags的ISurfaceComposer::eDestroyBackbuffer位等于0，即在渲染了应用程序窗口的UI之后，应该保留正在渲染的图形缓冲区的内容。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 如果能将前端缓冲区的内容拷贝到后端缓冲区中去，那么就不用重新绘制应用程序窗口的所有区域，而只需要绘制那些脏的区域，即Region对象newDirtyRegion所描述的区域。注意，参数dirtyIn所描述的区域是原先指定的脏区域，但是在分配了新的后端缓冲区backBuffer之后，我们需要将新的图形缓冲区backBuffer所描述的区域boundsRegion与原先指定的脏区域作一个与操作，得到才是最后需要重绘的脏区域newDirtyRegion。由于在这种情况下，我们只在后端缓冲区backBuffer绘制中绘制应用程序窗口的脏区域，因此，就需要将那些干净的区域从前端缓冲区frontBuffer拷贝到图形缓冲区backBuffer的对应位置去，这是通过调用函数copyBlt来实现的。应用程序窗口的干净区域使用Region对象copyback来描述，它是从应用程序窗口上一次所重绘的区域减去接下来需要重绘的脏区域newDirtyRegion得到的，而应用程序窗口上一次所重绘的区域是保存在Surface类的成员变量mOldDirtyRegion中的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;如果不能将前端缓冲区的内容拷贝到后端缓冲区中去，那么接下来就需要重新绘制应用程序窗口的所有区域了，这时候应用程序窗口的脏区域newDirtyRegion就会被修改为后端缓冲区backBuffer所描述的区域boundsRegion。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;Surface类的成员函数lock处理完成前后端缓冲区的拷贝问题之后，接下来就会调用后端缓冲区backBuffer所指向的一个GraphicBuffer对象的成员函数lock来获得它的地址vaddr，以便接下来保存在参数other所描述的一个SurfaceInfo对象的成员变量bits中，这样调用者就获得后端缓冲区backBuffer的地址值了。注意，同时保存在SurfaceInfo对象中的信息还包括后端缓冲区backBuffer的宽度width、高度height、每行像素点stride、用途usage和像素格式format。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Surface类的成员函数lock还会将接下来要重绘的脏缓冲区newDirtyRegion保存在Surface类的成员变量mOldDirtyRegion中，以便再下一次为应用程序窗口分配图形缓冲区时，可以知道应用程序窗口的上一次重绘区域，即上一次干净区域。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 此外，Surface类的成员函数lock还会将后端缓冲区backBuffer保存在Surface类的成员变量mLockedBuffer，这样就可以知道应用程序窗口当前正在使用的图形缓冲区，即下一次要请求SurfaceFlinger服务渲染的图形缓冲区。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 最后，Surface类的成员函数lock首先调用成员变量mApiLock所指向的一个Mutex对象的成员函数unlock，以便中可以释放前面所获得的锁，然后再返回到上一步去。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们继续分析GraphicBuffer类的成员函数lock的实现，以便可以了解一个图形缓冲区的地址是如何获得的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 4.&nbsp;GraphicBuffer.lock</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_15_8084955" class="cpp" name="code">status_t GraphicBuffer::lock(uint32_t usage, const Rect&amp; rect, void** vaddr)
+{
+    ......
+
+    status_t res = getBufferMapper().lock(handle, usage, rect, vaddr);
+    return res;
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; 这个函数定义在文件frameworks/base/libs/ui/GraphicBuffer.cpp中。<br /><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;GraphicBuffer类的成员变量handle是从父类android_native_buffer_t继承下来的，它的类型为buffer_handle_t，用来作为一个图形缓冲区的句柄，这个知识点可以参考前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7932268">Android应用程序请求SurfaceFlinger服务渲染Surface的过程分析</a>一文。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;GraphicBuffer类的成员函数lockGraphicBuffer首先调用另外一个成员函数getBufferMapper来获得一个GraphicBufferMapper对象，然后再调用这个GraphicBufferMapper对象的成员函数lock来获得成员变量handle所描述的一个图形缓冲区的地址，并且保存在输出参数vaddr中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们就继续分析GraphicBufferMapper类的成员函数lock的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 5.&nbsp;GraphicBufferMapper.lock</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_16_7146863" class="cpp" name="code">status_t GraphicBufferMapper::lock(buffer_handle_t handle,
+        int usage, const Rect&amp; bounds, void** vaddr)
+{
+    status_t err;
+    if (sw_gralloc_handle_t::validate(handle) &lt; 0) {
+        err = mAllocMod-&gt;lock(mAllocMod, handle, usage,
+                bounds.left, bounds.top, bounds.width(), bounds.height(),
+                vaddr);
+    } else {
+        err = sw_gralloc_handle_t::lock((sw_gralloc_handle_t*)handle, usage,
+                bounds.left, bounds.top, bounds.width(), bounds.height(),
+                vaddr);
+    }
+    LOGW_IF(err, &quot;lock(...) failed %d (%s)&quot;, err, strerror(-err));
+    return err;
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/libs/ui/GraphicBufferMapper.cpp。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;GraphicBufferMapper类的成员函数lock首先调用sw_gralloc_handle_t类的静态成员函数validate来验证参数andle所描述的一个图形缓冲区是否是在w_gralloc_handle_t模块中分配的。如果是的话，那么就需要调用sw_gralloc_handle_t类的静态成员函数lock来获得参数andle所描述的一个图形缓冲区的地址，否则的话，就需要调用GraphicBufferMapper类的成员变量mAllocMod所描述的一个HAL模块Gralloc的成员函数lock来获得参数andle所描述的一个图形缓冲区的地址。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;从前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7932268">Android应用程序请求SurfaceFlinger服务渲染Surface的过程分析</a>一文可以知道，应用程序窗口所使用的图形缓冲区一般都是在HAL模块Gralloc中分配的，因此，GraphicBufferMapper类的成员函数lock接下来就会调用成员变量mAllocMod所描述的一个HAL模块Gralloc的成员函数lock来获得参数andle所描述的一个图形缓冲区的地址，并且保存在输出参数vaddr中。HAL模块Gralloc的成员函数lock的实现可以参考前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7747932">Android帧缓冲区（Frame Buffer）硬件抽象层（HAL）模块Gralloc的实现原理分析</a>一文，这里不再详述。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这一步执行完成之后，返回到前面的Step 1中，即ViewRoot类的成员函数draw中，接下来就会继续调用其成员变量mView所描述的一个DecorView对象的成员函数draw来在前面所获得一块画布上面绘制应用程序窗口的UI。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 6. DecorView.draw</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_17_5336720" class="java" name="code">public class PhoneWindow extends Window implements MenuBuilder.Callback {
+    ......
+
+    private final class DecorView extends FrameLayout implements RootViewSurfaceTaker {
+        ......
+
+        private Drawable mMenuBackground;
+        ......
+
+        @Override
+        public void draw(Canvas canvas) {
+            super.draw(canvas);
+
+            if (mMenuBackground != null) {
+                mMenuBackground.draw(canvas);
+            }
+        }
+
+        ......
+    }
+
+    ......
+}</pre><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/policy/src/com/android/internal/policy/impl/PhoneWindow.java中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;DecorView类的成员函数draw首先调用父类FrameLayout的成员函数draw来绘制它的UI内容，然后再检查它是否设置了菜单背景，即成员变量mMenuBackground的值是否不等于null。如果不等于null的话，那么就会调用它所指向的一个Drawable对象的成员函数draw来在画布canvas上绘制这个菜单背景。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们就继续分析FrameLayout的成员函数draw的实现，以便可以了解应用程序窗口UI的绘制过程。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 7.&nbsp;FrameLayout.draw</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_18_9622881" class="java" name="code">public class FrameLayout extends ViewGroup {
+    ......
+  
+    private Drawable mForeground;
+    ......
+
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+
+        if (mForeground != null) {
+            final Drawable foreground = mForeground;
+
+            if (mForegroundBoundsChanged) {
+                mForegroundBoundsChanged = false;
+                final Rect selfBounds = mSelfBounds;
+                final Rect overlayBounds = mOverlayBounds;
+
+                final int w = mRight-mLeft;
+                final int h = mBottom-mTop;
+
+                if (mForegroundInPadding) {
+                    selfBounds.set(0, 0, w, h);
+                } else {
+                    selfBounds.set(mPaddingLeft, mPaddingTop, w - mPaddingRight, h - mPaddingBottom);
+                }
+
+                Gravity.apply(mForegroundGravity, foreground.getIntrinsicWidth(),
+                        foreground.getIntrinsicHeight(), selfBounds, overlayBounds);
+                foreground.setBounds(overlayBounds);
+            }
+
+            foreground.draw(canvas);
+        }
+    }
+
+    ......
+}</pre><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/widget/FrameLayout.java中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;FrameLayout类的成员函数draw首先调用父类View的成员函数draw来绘制它的UI内容，然后再检查它是否设置了一个前景图，即成员变量mForeground的值是否等于null。如果不等于null的话，那么就会先设置这个前景图的大小和位置，然后再调用用成员变量mForeground所指向的一个Drawable对象的成员函数draw来在画布canvas上绘制这个前景图。<br /></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;接下来，我们就继续分析View类的成员函数draw的实现，以便可以了解应用程序窗口UI的绘制过程。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 8. View.draw</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/view/View.java中，它主要是完成以下六个操作：</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. 绘制当前视图的背景。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. 保存当前画布的堆栈状态，并且在在当前画布上创建额外的图层，以便接下来可以用来绘制当前视图在滑动时的边框渐变效果。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;3. 绘制当前视图的内容。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;4. 绘制当前视图的子视图的内容。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;5. 绘制当前视图在滑动时的边框渐变效果。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;6. 绘制当前视图的滚动条。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;在上面六个操作中，有些是可以优化的。例如，如果当前视图的某一个子视图是不透明的，并且覆盖了当前视图的内容，那么当前视图的背景以及内容就不会绘制了，即不用执行第1和第3个操作。又如，如果当前视图不是处于滑动的状态，那么第2和第5个操作也是不用执行的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;接下来我们就分段来阅读View类的成员函数draw的代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_19_6176535" class="java" name="code">public class View implements Drawable.Callback, KeyEvent.Callback, AccessibilityEventSource {
+    ......
+
+    public void draw(Canvas canvas) {
+        ......
+
+        final int privateFlags = mPrivateFlags;
+        final boolean dirtyOpaque = (privateFlags &amp; DIRTY_MASK) == DIRTY_OPAQUE &amp;&amp;
+                (mAttachInfo == null || !mAttachInfo.mIgnoreDirtyState);
+        mPrivateFlags = (privateFlags &amp; ~DIRTY_MASK) | DRAWN;</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码检查View类的成员变量mPrivateFlags的DIRTY_OPAQUE位是否等于1。如果等于1的话，那么就说明当前视图的某一个子视图请求了一个不透明UI绘制操作。在这种情况下，当前视图会被子视图覆盖，因此，就不需要执行前面所说的第1和第3个操作了。不过，不用执行第1和第3个操作还有一个前提，那就是View类的成员变量mAttachInfo所指向的一个AttachInfo对象的成员变量mIgnoreDirtyState的值等于false，这表示当前视图不可以忽略成员变量mPrivateFlags的DIRTY_OPAQUE位。满足了上述两个条件之后，变量dirtyOpaque的值就会等于true。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; View类的成员函数在继续往下执行之前，还会将成员变量mPrivateFlags的DIRTY_MASK位重置为0，以及将DRAWN位设置为1，因为接下来就要开始绘制当前视图的UI了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 我们继续往下阅读代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_20_5446187" class="java" name="code">        // Step 1, draw the background, if needed
+        int saveCount;
+
+        if (!dirtyOpaque) {
+            final Drawable background = mBGDrawable;
+            if (background != null) {
+                final int scrollX = mScrollX;
+                final int scrollY = mScrollY;
+
+                if (mBackgroundSizeChanged) {
+                    background.setBounds(0, 0,  mRight - mLeft, mBottom - mTop);
+                    mBackgroundSizeChanged = false;
+                }
+
+                if ((scrollX | scrollY) == 0) {
+                    background.draw(canvas);
+                } else {
+                    canvas.translate(scrollX, scrollY);
+                    background.draw(canvas);
+                    canvas.translate(-scrollX, -scrollY);
+                }
+            }
+        }</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码用来执行上述的第1个操作，但是它只会变量dirtyOpaque的值等于false的情况下才会执行。当前视图的背景是通过成员变量mBGDrawable所指向的一个Drawable对象来描述的。在绘制当前视图的背景之前，还会先设置它的大小和位置。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们继续往下阅读代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_21_2556248" class="java" name="code">        // skip step 2 &amp; 5 if possible (common case)
+        final int viewFlags = mViewFlags;
+        boolean horizontalEdges = (viewFlags &amp; FADING_EDGE_HORIZONTAL) != 0;
+        boolean verticalEdges = (viewFlags &amp; FADING_EDGE_VERTICAL) != 0;
+        if (!verticalEdges &amp;&amp; !horizontalEdges) {
+            // Step 3, draw the content
+            if (!dirtyOpaque) onDraw(canvas);
+
+            // Step 4, draw the children
+            dispatchDraw(canvas);
+
+            // Step 6, draw decorations (scrollbars)
+            onDrawScrollBars(canvas);
+
+            // we're done...
+            return;
+        }</pre><p>&nbsp;&nbsp; &nbsp; &nbsp; 这段代码检查是否可以跳过上述的第2和第5个操作。当View类的成员变量mViewFlags的FADING_EDGE_HORIZONTAL位等于1的时候，就说明当前视图正在处于水平滑动状态，并且需要绘制水平边框的渐变效果。同样，当View类的成员变量mViewFlags的FADING_EDGE_VERTICAL位等于1的时候，就说明当前视图正在处于垂直滑动状态，并且需要绘制垂直边框的渐变效果。但是，如果当前视图不是处于滑动状态，即变量horizontalEdges和verticalEdges的值均等于false的时候，那么就不需要执行上述的第2和第5个操作了，而只需要执行第3、第4和第6个操作。注意，当变量dirtyOpaque的值等于true的时候，第3个操作也是不需要执行的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们继续往下分析代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_22_9317644" class="java" name="code">        boolean drawTop = false;
+        boolean drawBottom = false;
+        boolean drawLeft = false;
+        boolean drawRight = false;
+
+        float topFadeStrength = 0.0f;
+        float bottomFadeStrength = 0.0f;
+        float leftFadeStrength = 0.0f;
+        float rightFadeStrength = 0.0f;
+
+        // Step 2, save the canvas' layers
+        int paddingLeft = mPaddingLeft;
+        int paddingTop = mPaddingTop;
+
+        final boolean offsetRequired = isPaddingOffsetRequired();
+        if (offsetRequired) {
+            paddingLeft += getLeftPaddingOffset();
+            paddingTop += getTopPaddingOffset();
+        }
+
+        int left = mScrollX + paddingLeft;
+        int right = left + mRight - mLeft - mPaddingRight - paddingLeft;
+        int top = mScrollY + paddingTop;
+        int bottom = top + mBottom - mTop - mPaddingBottom - paddingTop;
+
+        if (offsetRequired) {
+            right += getRightPaddingOffset();
+            bottom += getBottomPaddingOffset();
+        }
+
+        final ScrollabilityCache scrollabilityCache = mScrollCache;
+        int length = scrollabilityCache.fadingEdgeLength;
+
+        // clip the fade length if top and bottom fades overlap
+        // overlapping fades produce odd-looking artifacts
+        if (verticalEdges &amp;&amp; (top + length &gt; bottom - length)) {
+            length = (bottom - top) / 2;
+        }
+
+        // also clip horizontal fades if necessary
+        if (horizontalEdges &amp;&amp; (left + length &gt; right - length)) {
+            length = (right - left) / 2;
+        }
+
+        if (verticalEdges) {
+            topFadeStrength = Math.max(0.0f, Math.min(1.0f, getTopFadingEdgeStrength()));
+            drawTop = topFadeStrength &gt;= 0.0f;
+            bottomFadeStrength = Math.max(0.0f, Math.min(1.0f, getBottomFadingEdgeStrength()));
+            drawBottom = bottomFadeStrength &gt;= 0.0f;
+        }
+
+        if (horizontalEdges) {
+            leftFadeStrength = Math.max(0.0f, Math.min(1.0f, getLeftFadingEdgeStrength()));
+            drawLeft = leftFadeStrength &gt;= 0.0f;
+            rightFadeStrength = Math.max(0.0f, Math.min(1.0f, getRightFadingEdgeStrength()));
+            drawRight = rightFadeStrength &gt;= 0.0f;
+        }
+
+        saveCount = canvas.getSaveCount();
+
+        int solidColor = getSolidColor();
+        if (solidColor == 0) {
+            final int flags = Canvas.HAS_ALPHA_LAYER_SAVE_FLAG;
+
+            if (drawTop) {
+                canvas.saveLayer(left, top, right, top + length, null, flags);
+            }
+
+            if (drawBottom) {
+                canvas.saveLayer(left, bottom - length, right, bottom, null, flags);
+            }
+
+            if (drawLeft) {
+                canvas.saveLayer(left, top, left + length, bottom, null, flags);
+            }
+
+            if (drawRight) {
+                canvas.saveLayer(right - length, top, right, bottom, null, flags);
+            }
+        } else {
+            scrollabilityCache.setFadeColor(solidColor);
+        }</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码用来检查是否需要保存参数canvas所描述的一块画布的堆栈状态，并且创建额外的图层来绘制当前视图在滑动时的边框渐变效果。视图的边框是绘制在内容区域的边界位置上的，而视图的内容区域是需要排除成员变量mPaddingLeft、mPaddingRight、mPaddingTop和mPaddingBottom所描述的视图内边距的。此外，视图的边框有四个，分别位于视图的左、右、上以及下内边界上。因此，这段代码首先需要计算出当前视图的左、右、上以及下内边距的大小，以便得到边框所要绘制的区域。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;本来通过View类的成员变量mPaddingLeft、mPaddingRight、mPaddingTop和mPaddingBottom就可以得到当视图的左、右、上以及下内边距的大小的，但是有时候我们在定制一个视图的时候，可能会需要在视图的内边距上绘制其它额外的东西，这时候就有扩展视图的内边距的需求。如果有扩展视图的内边距的需求，那么就需要重写View类的成员函数isPaddingOffsetRequired，即将它的返回值设置为true，并且重载另外四个成员函数getLeftPaddingOffset、getRightPaddingOffset、getTopPaddingOffset和getBottomPaddingOffset来提供额外的左、右、上以及下内边距。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 这段代码经过计算后，就得到四个值left、right、top和bottom，它们分别表示当前视图可以用来绘制的内容区域，这个区域已经将内置的和扩展的内边距排除之外。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 计算好left、right、top和bottom这四个值之后，就相当于得到左、右、上以及下边框的起始位置了，但是我还需要知道边框的长度，才能确定左、右、上以及下边框所要绘制的区域。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;边框的长度length设置在View类的成员变量mScrollCache所指向的一个ScrollabilityCache对象的成员变量fadingEdgeLength中。但是，这个预先设置的边框长度length不一定适合当前视图使用。这是因为视图的大小是可以随时改变的，一旦发生了改变之后，原先设置的边框长度length可能就会显得过长。具体来说，就是当上下两个边框或者左右两个边框发生重叠时，就说明原先设置的边框长度过长了。在这种情况下，就要将边框长度length修改为当前视图的内容区域的高度和宽度的较小者的一半，以便可以保证上下两个边框或者左右两个边框不会发生重叠。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;左、右、上以及下边框都对应有一个强度值，强度值的取值范围为[0.0, 1.0]。如果一个边框的强度值等于0.0，那么它就是不可见的，这时候就不需要绘制它的渐变效果。另一方面，如果一个边框的强度值等于1.0，那么它的长度等于原来设置的长度。我们可以将这个强度值理解为一个缩放因子。左、右、上以及下边框的强度值可以分别通过调用View类的成员函数getLeftFadingEdgeStrength、getRightFadingEdgeStrength、getTopFadingEdgeStrength以及getBottomFadingEdgeStrength来获得。注意，只有在变量verticalEdges的值等于true的时候，这段代码才会计算上下两个边框的强度值topFadeStrength和bottomFadeStrength；同样，只有变量horizontalEdges的值等于true的时候，这代码才会计算左右两个边框的强度值leftFadeStrength和rightFadeStrength。&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;计算好左、右、上以及下边框的强度值leftFadeStrength、rightFadeStrength、topFadeStrength以及bottomFadeStrength之后，这段代码就会判断它们的值是否大于0。如果大于0，那么与它们所对应的四个变量drawLeft、drawRight、drawTop以及drawBottom的值就会等于true，表示需要绘制左、右、上以及下四个边框的渐变效果。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;View类的成员函数getSolidColor返回的是当前视图的背景颜色。如果当前视图的背景颜色是纯色的，即变量solidColor的值不等于0，那么这时候就会使用这个背景颜色来绘制边框的渐变效果，即调用变量scrollabilityCache所指向的一个ScrollabilityCache对象的成员函数setFadeColor来将将边框的渐变效果颜色设置为solidColor，这种情况是比较简单的。如果当前视图的背景颜色不是纯色的，即变量solidColor的值等于0，这种情况就比较复杂了，我们需要创建在参数canvas所描述的一块画布上来创建额外的图层来绘制边框的渐变效果，这样做是为了能够使用背景颜色来绘制边框的渐变效果。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数canvas所描述的一块画布上来创建额外的图层是通过调用它的成员函数saveLayer来实现的。我们注意到在调用参数canvas所指向的一个Canvas对象的成员函数saveLayer的时候，最后一个参数指定为Canvas.HAS_ALPHA_LAYER_SAVE_FLAG，这表示在将额外创建的图层合成到参数canvas所描述的一块画布上去，要给额外创建的图层设置一个透明度值。同时，我们还可以看出，当前视图的左、右、上和下边框所占据的范围分别为（left, top, left + length, bottom）、（right - length, top, right, bottom）、（left, top, right, top + length）和（left, bottom - length, right, bottom）。还有另外一个地方需要注意的是，在参数canvas所描述的一块画布上来创建额外的图层之前，这段代码首先会获得画布的当前堆栈状态，这是通过一个整数saveCount来描述的，并且这个整数是通过调用参数canvas所指向的一个Canvas对象的成员函数getSaveCount来获得的。这样，后面在额外创建的图层上绘制了边框的渐变效果之后，就可以通过前面得到的整数saveCount将恢复画布的堆栈状态，也就是将前面额外创建的图层合成到画布上来。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们接着往下阅读代码：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_23_8063908" class="java" name="code">        // Step 3, draw the content
+        if (!dirtyOpaque) onDraw(canvas);
+
+        // Step 4, draw the children
+        dispatchDraw(canvas);</pre><p>&nbsp;&nbsp; &nbsp; &nbsp; 这段代码用来执行上述的第3和第4个操作，即绘制当前视图的内容，以及当前视图的子视图的内容，它们分别是通过调用View类的成员函数onDraw和dispatchDraw来实现的。本文主要关注当前视图的子视图的绘制过程，因此，在接下来的Step 9中，我们再详细分析View类的成员函数dispatchDraw的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;我们接着往下阅读代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_24_9841815" class="java" name="code">        // Step 5, draw the fade effect and restore layers
+        final Paint p = scrollabilityCache.paint;
+        final Matrix matrix = scrollabilityCache.matrix;
+        final Shader fade = scrollabilityCache.shader;
+        final float fadeHeight = scrollabilityCache.fadingEdgeLength;
+
+        if (drawTop) {
+            matrix.setScale(1, fadeHeight * topFadeStrength);
+            matrix.postTranslate(left, top);
+            fade.setLocalMatrix(matrix);
+            canvas.drawRect(left, top, right, top + length, p);
+        }
+
+        if (drawBottom) {
+            matrix.setScale(1, fadeHeight * bottomFadeStrength);
+            matrix.postRotate(180);
+            matrix.postTranslate(left, bottom);
+            fade.setLocalMatrix(matrix);
+            canvas.drawRect(left, bottom - length, right, bottom, p);
+        }
+
+        if (drawLeft) {
+            matrix.setScale(1, fadeHeight * leftFadeStrength);
+            matrix.postRotate(-90);
+            matrix.postTranslate(left, top);
+            fade.setLocalMatrix(matrix);
+            canvas.drawRect(left, top, left + length, bottom, p);
+        }
+
+        if (drawRight) {
+            matrix.setScale(1, fadeHeight * rightFadeStrength);
+            matrix.postRotate(90);
+            matrix.postTranslate(right, top);
+            fade.setLocalMatrix(matrix);
+            canvas.drawRect(right - length, top, right, bottom, p);
+        }
+
+       canvas.restoreToCount(saveCount);</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码是用来绘制当前视图的左、右、上以及下边框的渐变效果。注意，只有左、右、上以及下边框所对应的四个变量drawLeft、drawRight、drawTop以及drawBottom的值等于true时，左、右、上以及下边框的渐变效果才需要绘制。同时，左、右、上以及下边框在绘制的时候，都会被设置一个缩放因子，即前面计算得到的左、右、上以及下边框的强度值leftFadeStrength、rightFadeStrength、topFadeStrength以及bottomFadeStrength。<br /><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;由于当前视图的左、右、上以及下边框的渐变效果是在参数canvas所描述的一块画布的额外创建的图层上绘制的，因此，在绘制完之后，这段代码需要调用参数canvas所指向的一个Canvas对象来恢复参数canvas所描述的一块画布在创建额外图层时的堆栈状态，即相当于是将前面所绘制的边框渐变效果合成到参数canvas所描述的一块画布来。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们继续往下阅读最后一段代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_25_2491774" class="java" name="code">        // Step 6, draw decorations (scrollbars)
+        onDrawScrollBars(canvas);
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; 这段代码用来执行上述的第6个操作，即调用View类的成员函数onDrawScrollBars来绘制当前视图的滚动条。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们就主要关注当前视图的子视图的绘制过程，即View类的成员函数dispatchDraw的实现。注意，View类的成员函数dispatchDraw是一个空实现，它是由子类ViewGroup来重写的，也就是说，只有当一个视图描述的是一个视图容器时，它才会重写父类View的成员函数dispatchDraw。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 前面我们已经假设当前正在处理的视图是应用程序窗口的顶层视图，即它是一个类型为DecorView视图。DecorView类是从ViewGroup类继承下来的，并且在ViewGroup类中重写了父类View类的成员函数dispatchDraw。因此，接下来我们就继续分析ViewGroup的成员函数dispatchDraw的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 9.&nbsp;ViewGroup.dispatchDraw</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 这个函数定义在文件frameworks/base/core/java/android/view/ViewGroup.java中，它的实现比较长，我们分段来阅读：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_26_125224" class="java" name="code">public abstract class ViewGroup extends View implements ViewParent, ViewManager {
+    ......
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        final int count = mChildrenCount;
+        final View[] children = mChildren;
+        int flags = mGroupFlags;</pre>&nbsp;&nbsp; &nbsp; &nbsp; ViewGroup类的成员变量mChildrenCount描述的是当前视图组的子视图的个数，另外一个成员变量mChildren是一个类型为View的数组，用来保存当前视图组的子视图。此外，ViewGroup类的成员变量mGroupFlags用来描述当前视图组的标志位。这段代码将上述ViewGroup类的三个成员变量分别保存在变量count、children和flags中，以便接下来可以访问。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; 我们继续往下阅读代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_27_7235284" class="java" name="code">        if ((flags &amp; FLAG_RUN_ANIMATION) != 0 &amp;&amp; canAnimate()) {
+            ......
+
+            for (int i = 0; i &lt; count; i++) {
+                final View child = children[i];
+                if ((child.mViewFlags &amp; VISIBILITY_MASK) == VISIBLE) {
+                    ......
+                    bindLayoutAnimation(child);
+                    ......
+                }
+            }
+
+            final LayoutAnimationController controller = mLayoutAnimationController;
+            ......
+
+            controller.start();
+
+            ......
+
+            if (mAnimationListener != null) {
+                mAnimationListener.onAnimationStart(controller.getAnimation());
+            }
+        }</pre><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码用来检查当前视图组的子视图是否需要显示动画。如果变量flags的FLAG_RUN_ANIMATION位等于1，并且ViewGroup类的成员函数canAnimate的返回值等于true，即当前当前视图组允许其子视图显示动画，那么这段代码接下来就要开始显示动画了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码首先检查当前视图组的每一个子视图child，如果它是可见的，那么就会调用ViewGroup类的另外一个成员函数bindLayoutAnimation来设置它的动画。设置完成子视图的动画之后，这段代码接下来再调用ViewGroup类的成员变量mLayoutAnimationController所指向的一个LayoutAnimationController对象的成员函数start来启动动画，并且调用ViewGroup类的成员变量mAnimationListener所指向的一个AnimationListener对象的成员函数onAnimationStart来通知那些注册到当前视图组的动画监听者，当前视图组开始显示动画了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们继续往下阅读代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_28_6504936" class="java" name="code">        int saveCount = 0;
+        final boolean clipToPadding = (flags &amp; CLIP_TO_PADDING_MASK) == CLIP_TO_PADDING_MASK;
+        if (clipToPadding) {
+            saveCount = canvas.save();
+            canvas.clipRect(mScrollX + mPaddingLeft, mScrollY + mPaddingTop,
+                    mScrollX + mRight - mLeft - mPaddingRight,
+                    mScrollY + mBottom - mTop - mPaddingBottom);
+
+        }
+</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码检查变量flags的CLIP_TO_PADDING_MASK位是否不等于1。如果不等于1的话，那么就说明需要设置参数canvas所描述的一块画布的剪裁区域，使得这个裁剪区域不包含当前视图组的内边距。注意，当前视图组的内边距是通过从父类View继承下来的四个成员变量mPaddingLeft、mPaddingRight、mPaddingTop和mPaddingBottom来描述的。此外，当前视图组的区域是通过从父类继承下来的四个成员变量量mLeft、mRight、mTop和mBottom描述的。再结合当前视图的当前滚动位置mScrollX的mScrollY，就可以计算出参数canvas所描述的一块画布的剪裁区域。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;在设置参数canvas所描述的一块画布的剪裁区域之前，这段代码会先调用参数canvas所指向的一个Canvas对象的成员函数save来保存它的堆栈状态，以便在绘制完成当前视图组的UI之后，可以恢复canvas所描述的一块画布的堆栈状态。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们继续往下阅读代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_29_7203047" class="java" name="code">        boolean more = false;
+        final long drawingTime = getDrawingTime();
+
+        if ((flags &amp; FLAG_USE_CHILD_DRAWING_ORDER) == 0) {
+            for (int i = 0; i &lt; count; i++) {
+                final View child = children[i];
+                if ((child.mViewFlags &amp; VISIBILITY_MASK) == VISIBLE || child.getAnimation() != null) {
+                    more |= drawChild(canvas, child, drawingTime);
+                }
+            }
+        } else {
+            for (int i = 0; i &lt; count; i++) {
+                final View child = children[getChildDrawingOrder(count, i)];
+                if ((child.mViewFlags &amp; VISIBILITY_MASK) == VISIBLE || child.getAnimation() != null) {
+                    more |= drawChild(canvas, child, drawingTime);
+                }
+            }
+        }</pre>&nbsp;&nbsp; &nbsp; &nbsp; 这段代码用来绘制当前视图组的子视图。如果一个子视图child是可见的，即它的成员变量mViewFlags的VISIBLE位等于1，或者它有一个动画需要显示，即它的成员函数getAnimation的返回值不等于null，那么这个子视图就是需要绘制的。绘制一个子视图是通过调用ViewGroup类的成员函数drawChild来实现的。ViewGroup类的成员函数drawChild在绘制一个子视图的时候，如果这个子视图的动画还没有结束，那么它的返回值就等于true，并且会被设置到变量more中去。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; 注意，当变量flags的FLAG_USE_CHILD_DRAWING_ORDER位等于0的时候，就表示当前视图组的子视图按照它们在数组children中的位置从小到在三类绘制，否则的话，就需要通过ViewGroup类的成员函数getChildDrawingOrder来决定这些子视图的绘制顺序。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 我们接着往下阅读代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_30_932802" class="java" name="code">        // Draw any disappearing views that have animations
+        if (mDisappearingChildren != null) {
+            final ArrayList&lt;View&gt; disappearingChildren = mDisappearingChildren;
+            final int disappearingCount = disappearingChildren.size() - 1;
+            // Go backwards -- we may delete as animations finish
+            for (int i = disappearingCount; i &gt;= 0; i--) {
+                final View child = disappearingChildren.get(i);
+                more |= drawChild(canvas, child, drawingTime);
+            }
+        }</pre>&nbsp;&nbsp; &nbsp; &nbsp; ViewGroup类的成员变量mDisappearingChildren用来保存那些正在消失的子视图，但是这些子视图正在显示动画的过程中，因此，这些子视图也是需要绘制的，这段代码同样是通过调用ViewGroup类的成员函数drawChild来绘制它们。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp;我们继续往下阅读最后一段代码：</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_31_6091015" class="java" name="code">        if (clipToPadding) {
+            canvas.restoreToCount(saveCount);
+        }
+
+        // mGroupFlags might have been updated by drawChild()
+        flags = mGroupFlags;
+
+        if ((flags &amp; FLAG_INVALIDATE_REQUIRED) == FLAG_INVALIDATE_REQUIRED) {
+            invalidate();
+        }
+
+        if ((flags &amp; FLAG_ANIMATION_DONE) == 0 &amp;&amp; (flags &amp; FLAG_NOTIFY_ANIMATION_LISTENER) == 0 &amp;&amp;
+                mLayoutAnimationController.isDone() &amp;&amp; !more) {
+            // We want to erase the drawing cache and notify the listener after the
+            // next frame is drawn because one extra invalidate() is caused by
+            // drawChild() after the animation is over
+            mGroupFlags |= FLAG_NOTIFY_ANIMATION_LISTENER;
+            final Runnable end = new Runnable() {
+               public void run() {
+                   notifyAnimationListener();
+               }
+            };
+            post(end);
+        }
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码执行以下三个操作：<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. 检查变量clipToPadding的值是否等于true。如果是的话，那么就说明前面设置过参数canvas所描述的一块画布的裁剪区域。由于现在已经在这块画布上绘制完成当前视图组的UI了，因此，就需要恢复参数canvas所描述的一块画布堆栈状态。这是通过调用参数canvas所指向的一个Canvas对象的成员函数restoreToCount来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. 前面在绘制当前视图组的子视图的UI的时候，有可能会需要修改当前视图组的标志位，即修改ViewGroup类的成员变量mGroupFlags的值。如果修改后的mGroupFlags的FLAG_INVALIDATE_REQUIRED位等于1，那么就说明当前视图组需要重新发起一个绘制UI的请求。这是通过调用ViewGroup类的另外一个成员函数invalidate来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;3. 如果当前视图组的动画已经显示完成，并且当前视图组的子视图的动画也已经显示完成，再并且当前视图组注册有动画监听者，那么就是会调用ViewGroup类的另外一个成员函数notifyAnimationListener来通知这些动画监听者，当前视图组的动画已经显示结束。注意，ViewGroup类的成员函数notifyAnimationListener是以消息的形式来调用的，即ViewGroup类的成员函数dispatchDraw不是在动画一显示结束，就马上通知那些动画监听者。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;接下来，我们就继续分析ViewGroup类的成员函数drawChild的实现，以便可以了解一个视图组的子视图的绘制过程。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 10. ViewGroup.drawChild</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/java/android/view/ViewGroup.java中，它的实现比较长，我们分段来阅读：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_32_1249229" class="java" name="code">public abstract class ViewGroup extends View implements ViewParent, ViewManager {
+    ......
+
+    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        boolean more = false;
+
+        final int cl = child.mLeft;
+        final int ct = child.mTop;
+        final int cr = child.mRight;
+        final int cb = child.mBottom;
+
+        final int flags = mGroupFlags;</pre><p>&nbsp;&nbsp; &nbsp; &nbsp; 这段代码首先获得子视图child的区域（cl, ct, cr, cb），以及当前视图组的标志位flags，以便接下来可以使用。另外，变量more的值用来表示子视图child是否还在显示动画。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 我们接着往下阅读代码：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_33_2819392" class="java" name="code">        Transformation transformToApply = null;
+        final Animation a = child.getAnimation();
+        ......
+
+        if (a != null) {
+            ......
+
+            if (mChildTransformation == null) {
+                mChildTransformation = new Transformation();
+            }
+            more = a.getTransformation(drawingTime, mChildTransformation);
+            transformToApply = mChildTransformation;
+            ......
+
+        } else if ((flags &amp; FLAG_SUPPORT_STATIC_TRANSFORMATIONS) ==
+                FLAG_SUPPORT_STATIC_TRANSFORMATIONS) {
+            if (mChildTransformation == null) {
+                mChildTransformation = new Transformation();
+            }
+            final boolean hasTransform = getChildStaticTransformation(child, mChildTransformation);
+            if (hasTransform) {
+                final int transformType = mChildTransformation.getTransformationType();
+                transformToApply = transformType != Transformation.TYPE_IDENTITY ?
+                        mChildTransformation : null;
+                ......
+            }
+        }</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码用来获得子视图child的变换矩阵transformToApply。获得了子视图child的变换矩阵transformToApply之后，我们就可以知道如何来显示它了。&nbsp;在两种情况下，子视图child会被设置一个变换矩阵。第一种情况子视图child正在显示动画的过程中，第二种情况是当前视图组给每一个子视图设置了一个变换矩阵。下面我们就分别讨论这两种情况。<p>&nbsp;&nbsp; &nbsp; &nbsp; 对于第一种情况，子视图child的成员函数getAnimation的返回值a不等于null，并且它所指向的一个Animation对象就是用来描述子视图child的动画的。获得了子视图的动画对象a之后，我们就可以调用它的成员函数getTransformation来继续执行它的动画了。如果该动画还需要继续执行，那么调用Animation对象a的成员函数getTransformation的返回值more就会等于true，并且会返回子视图child的接下来需要使用的变换矩阵，保存在ViewGroup类的成员变量mChildTransformation中。ViewGroup类的成员变量mChildTransformation最后又会保存在变量transformToApply中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 对于第二种情况，变量flags的FLAG_SUPPORT_STATIC_TRANSFORMATIONS位等于1，这时候调用ViewGroup类的成员函数getChildStaticTransformation就可以知道子视图child是否被设置了一个变换矩阵。如果设置了的话，那么ViewGroup类的成员函数getChildStaticTransformation的返回值hasTransform就会等于true。在这种情况下，ViewGroup类的成员变量mChildTransformation所描述的变换矩阵就是要应用在子视图child中的。不过有一个前提，即ViewGroup类的成员变量mChildTransformation所描述的变换矩阵不是一个单位矩阵，这是因为单位矩阵是没有变换效果的。如果ViewGroup类的成员变量mChildTransformation所描述的变换矩阵不是一个单位矩阵，那么它同样会被保存在变量transformToApply中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 我们继续往下阅读代码：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_34_1565656" class="java" name="code">        // Sets the flag as early as possible to allow draw() implementations
+        // to call invalidate() successfully when doing animations
+        child.mPrivateFlags |= DRAWN;
+
+        ......
+
+        child.computeScroll();
+
+        final int sx = child.mScrollX;
+        final int sy = child.mScrollY;
+
+        boolean scalingRequired = false;
+        Bitmap cache = null;
+        if ((flags &amp; FLAG_CHILDREN_DRAWN_WITH_CACHE) == FLAG_CHILDREN_DRAWN_WITH_CACHE ||
+                (flags &amp; FLAG_ALWAYS_DRAWN_WITH_CACHE) == FLAG_ALWAYS_DRAWN_WITH_CACHE) {
+            cache = child.getDrawingCache(true);
+            if (mAttachInfo != null) scalingRequired = mAttachInfo.mScalingRequired;
+        }
+
+        final boolean hasNoCache = cache == null;</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码执行以下三个操作：<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. 将子视图child的标志值mPrivateFlags的DRAWN设置为1，因为接下来它就会被绘制了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. 计算子视图child的滚动位置，这是通过调用子视图child的成员函数computeScroll来实现的。计算好子视图child的滚动位置之后，我们就可以通过它的成员变量mScrollX和mScrollY来获得它在X轴和Y轴上的偏移了。这两个偏移值保存在变量sx和sy中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;3. 检查变量flags的FLAG_CHILDREN_DRAWN_WITH_CACHE位或者FLAG_ALWAYS_DRAWN_WITH_CACHE位是否等于1。如果其中的一个等于1的话，那么就说明子视图是使用缓冲方式来绘制，即它的UI来缓冲在一个Bitmap里面，通过调用子视图child的成员函数getDrawingCache就可以获得这个Bitmap，并且保存在变量cache中。同时，通过ViewGroup类的成员变量mAttachInfo所指向的一个AttachInfo对象的成员变量mScalingRequired还可以知道子视图是否要进行缩放。如果需要缩放，那么变量scalingRequired的值就会等于true。另外，如果子视图child有一个缓冲的Bitmap，那么变量hasNoCache的值就会等于false。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;我们继续往下阅读代码：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_35_3659207" class="java" name="code">        final int restoreTo = canvas.save();
+        if (hasNoCache) {
+            canvas.translate(cl - sx, ct - sy);
+        } else {
+            canvas.translate(cl, ct);
+            if (scalingRequired) {
+                // mAttachInfo cannot be null, otherwise scalingRequired == false
+                final float scale = 1.0f / mAttachInfo.mApplicationScale;
+                canvas.scale(scale, scale);
+            }
+        }
+
+        float alpha = 1.0f;
+
+        if (transformToApply != null) {
+            ......
+
+            alpha = transformToApply.getAlpha();
+            
+            ......
+        }
+        ......
+
+        if ((flags &amp; FLAG_CLIP_CHILDREN) == FLAG_CLIP_CHILDREN) {
+            if (hasNoCache) {
+                canvas.clipRect(sx, sy, sx + (cr - cl), sy + (cb - ct));
+            } else {
+                if (!scalingRequired) {
+                    canvas.clipRect(0, 0, cr - cl, cb - ct);
+                } else {
+                    canvas.clipRect(0, 0, cache.getWidth(), cache.getHeight());
+                }
+            }
+        }</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码用来设置子视图child的偏移、Alpha通道以及裁剪区域：<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. 如果子视图child不是以缓冲的方式来绘制的，那么它的偏移值就需要同时考虑它在X轴和Y轴上的起始位置（cl, ct）以及滚动值sx、sy；如果子视图child是以缓冲的方式来绘制的，那么就不需要考虑它在X轴和Y轴上的滚动位置sx和sy，而只需要考虑它在X轴和Y轴上的起始位置（cl, ct），这是因为它所缓冲的Bitmap已经包含了滚动信息。注意，在子视图child是以缓冲的方式来绘制的情况中，如果变量scalingRequired的值等于true，那么这段代码同时还需要为子视图child设置一个缩放因子，以便接下来可以同步缓冲的Bitmap的所表示的大小。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. 如果子视图child此时被设置了一个变换矩阵transformToApply，那么一般它就会有一个Alpha值。例如，前面提到，当子视图child还处理动画显示的状态时，它就会有一个变换矩阵，而这个动画一般会有透明的效果，因此，就会有一个Alpha值。通过调用变量transformToApply所指向的一个Transformation对象的成员函数getAlpha就可以获得子视图child的Alpha值，保存在变量alpha中。如果子视图child此时没有被设置变换矩阵的话，那么它的Alpha值alpha就会等于1.0，表示不是透明的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 3. 如果变量flags的FLAG_CLIP_CHILDREN位等于1，那么就说明需要为子视图child设置一个剪裁区域。在设置子视图child的剪裁区域时，同样是需要考虑子视图child是否使用缓冲方式来绘制。如果不使用缓冲方式来会绘制，那么子视图child的剪裁区域就需要同时考虑它在X轴和Y轴上的起始位置（cl, ct）以及滚动值sx、sy；如果不是使用缓冲方式来会绘制，那么就不需要考虑它在X轴和Y轴上的滚动位置sx和sy。注意，在子视图child是以缓冲的方式来绘制的情况中，如果变量scalingRequired的值等于false，那么它的剪裁区域的宽度和高度就分别为（cr - cl）和（cb - ct），否则的话，它的剪裁区域的宽度和高度就等于上一次的缓冲Bitmap的宽度和宽度，这是因为对于后者来说，前面在设置子视图child的偏移时，已经同时设置过它的缩放因子了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 注意，在子视图child的偏移、Alpha通道以及裁剪区域之前，这段代码首先会保存在参数canvas所描述的一块画布的堆栈状态，以便在绘制完成子视图child的UI之后，可以恢复这块画布的堆栈状态来绘制其它子视图的UI。保存在参数canvas所描述的一块画布的堆栈状态是通过调用参数canvas所指向的一个Canvas对象的成员函数save来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 我们继续往下阅读代码：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_36_9025164" class="java" name="code">        if (hasNoCache) {
+            // Fast path for layouts with no backgrounds
+            if ((child.mPrivateFlags &amp; SKIP_DRAW) == SKIP_DRAW) {
+                ......
+                child.dispatchDraw(canvas);
+            } else {
+                child.draw(canvas);
+            }
+        } else {
+            final Paint cachePaint = mCachePaint;
+            if (alpha &lt; 1.0f) {
+                cachePaint.setAlpha((int) (alpha * 255));
+                mGroupFlags |= FLAG_ALPHA_LOWER_THAN_ONE;
+            } else if  ((flags &amp; FLAG_ALPHA_LOWER_THAN_ONE) == FLAG_ALPHA_LOWER_THAN_ONE) {
+                cachePaint.setAlpha(255);
+                mGroupFlags &amp;= ~FLAG_ALPHA_LOWER_THAN_ONE;
+            }
+            ......
+            canvas.drawBitmap(cache, 0.0f, 0.0f, cachePaint);
+        }</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这段代码就是用来绘制子视图child的UI的了，分为两种情况来考虑：<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. 以非缓冲的方式来绘制。这时候需要检查子视图child的标志值mPrivateFlags的SKIP_DRAW位是否等于1。如果等于1的话，那么就说明需要跳过子视图child的绘制，但是需要绘制子视图child的子视图，否则的话，就需要先绘制子视图child的UI，再绘制它的子视图的UI。绘制子视图child的子视图是通过调用它的成员函数dispatchDraw来实现的，而绘制子视图child本身及其子视图是通过调用它的成员函数draw来实现的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. 以缓冲的方式来绘制。这时候只需要将上一次的缓冲的Bitmap对象cache绘制到参数canvas所描述的一块画布上面就行了。在绘制之前，需要先设置用来绘制Bitmap对象cache的一个Paint对象的Alpha值，这个Paint对象保存在ViewGroup类的成员变量mCachePaint中。这个Alpha值保存在变量alpha中，如果它的值小于1.0，那么就说明子视图child有一个透明值，因此，就需要将它设置到ViewGroup类的成员变量mCachePaint所指向的一个Paint对象中去，并且将ViewGroup类的成员变量mGroupFlags的FLAG_ALPHA_LOWER_THAN_ONE位设置为1。另一方面，如果变量alpha的值大于等于1.0，那么就说明不需要设置子视图child的透明值，但是如果之前设置过子视图child的透明值，即ViewGroup类的成员变量mGroupFlags的FLAG_ALPHA_LOWER_THAN_ONE位等于1，那么还需要修改ViewGroup类的成员变量mCachePaint所指向的一个Paint对象是不透明的，即将它的透明值设置为255，并且将ViewGroup类的成员变量mGroupFlags的FLAG_ALPHA_LOWER_THAN_ONE位重置为0。最后，就可以调用参数canvas所指向的一个Canvas对象的成员函数drawBitmap来绘制子视图child的UI了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 我们继续往下阅读最后一段代码：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_37_2547175" class="java" name="code">        canvas.restoreToCount(restoreTo);
+
+        ......
+
+        return more;
+    }
+
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; 绘制完成子视图child的UI之后，就可以恢复参数canvas所描述的一块画布的堆栈状态了，这是通过调用参数canvas所指向的一个Canvas对象的成员函数restoreToCount来实现的。<p>&nbsp;&nbsp; &nbsp; &nbsp; ViewGroup类的成员函数drawChild最后就将变量more的值返回给调用者了，以便调用者可以知道当前正在绘制的子视图child是否还处于动画状态中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 从上面的分析就可以知道，当子视图child不是以非缓冲模式来绘制，并且它需要绘制自己及其子视图时，它的成员函数draw就会被调用，这时候就会重复执行Step 8、Step 9和Step 10，直到所有子孙视图都绘制完成为止。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 这一步执行完成之后，应用程序窗口的UI就全部绘制到在前面的Step 2中所获得的一块画布上面去了，返回到前面的Step 1中，即ViewRoot类的成员函数draw中，接下来就会Java层的Surface类的成员函数unlockCanvasAndPost来请求SurfaceFlinger服务渲染这块画布里面所包含的一个图形缓冲区了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们就继续分析Java层的Surface类的成员函数unlockCanvasAndPost的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 11.&nbsp;Surface.unlockCanvasAndPost</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_38_3768674" class="java" name="code">public class Surface implements Parcelable {
+    ......
+
+    /** unlock the surface and asks a page flip */
+    public native   void unlockCanvasAndPost(Canvas canvas);
+ 
+    ......
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; 这个函数定义在文件frameworks/base/core/java/android/view/Surface.java中。<p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;Surface类的成员函数unlockCanvasAndPost是一个JNI方法，它是由C++层的函数Surface_unlockCanvasAndPost来实现的，如下所示：</p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_39_1086479" class="cpp" name="code">static void Surface_unlockCanvasAndPost(
+        JNIEnv* env, jobject clazz, jobject argCanvas)
+{
+    jobject canvas = env-&gt;GetObjectField(clazz, so.canvas);
+    if (canvas != argCanvas) {
+        doThrow(env, &quot;java/lang/IllegalArgumentException&quot;, NULL);
+        return;
+    }
+
+    const sp&lt;Surface&gt;&amp; surface(getSurface(env, clazz));
+    if (!Surface::isValid(surface))
+        return;
+
+    // detach the canvas from the surface
+    SkCanvas* nativeCanvas = (SkCanvas*)env-&gt;GetIntField(canvas, no.native_canvas);
+    int saveCount = env-&gt;GetIntField(clazz, so.saveCount);
+    nativeCanvas-&gt;restoreToCount(saveCount);
+    nativeCanvas-&gt;setBitmapDevice(SkBitmap());
+    env-&gt;SetIntField(clazz, so.saveCount, 0);
+
+    // unlock surface
+    status_t err = surface-&gt;unlockAndPost();
+    if (err &lt; 0) {
+        doThrow(env, &quot;java/lang/IllegalArgumentException&quot;, NULL);
+    }
+}</pre><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/core/jni/android_view_Surface.cpp中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;参数clazz指向的是一个Java层的Surface对象，用来描述当前正在绘制的应用程序窗口的绘图表面，而参数argCanvas指向的是一个Java层的Canvas对象。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;参数clazz指向的是一个Java层的Surface对象的成员变量mCanvas所指向的一个Canvas对象canvas应当等于参数argCanvas指向的是一个Java层的Canvas对象，否则的话，函数就会抛出一个异常。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 从前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8303098">Android应用程序窗口（Activity）的绘图表面（Surface）的创建过程分析</a>一文可以知道，每一个Java层的Surface对象在C++层都有一个对应的Surface对象。因此，函数t就可以通过调用另外一个函数getSurface来获得与参数clazz所指向的是一个Java层的Surface对象所对应的C++层的Surface对象surface。C++层的Surface类的静态成员函数isValid用来验证Surface对象surface是否已经连接到SurfaceFlinger服务中。如果还没有连接到，那么函数就会出错返回了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 通过了上述的合法性检查之后，函数接下来主要就是做两件事情：</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 1. 恢复变量canvas所描述的一块画布的堆栈状态。变量canvas所描述的一块画布是在前面的Step 2中开始初始化的，每次应用程序窗口在上面绘制完成UI之后，我们都应该恢复它的堆栈状态，以便下一次使用时不会受上一次影响。变量canvas指向的是一个Java层的Canvas对象，函数首先找到与它所对应的一个C++层的SkCanvas对象nativeCanvas，然后就可以调用这个SkCanvas对象nativeCanvas的成员函数restoreToCount来恢复它所描述的一块画布的堆栈状态了。这块画布在绘制应用程序窗口UI前的堆栈状态保存在参数clazz所指向的一个Java层的Surface对象的成员变量mSaveCount中。因此，函数就先获得参数clazz所指向的一个Java层的Surface对象的成员变量mSaveCount的值，然后再以它为参数来调用SkCanvas对象nativeCanvas的成员函数restoreToCount，这样就可以恢复画布的堆栈状态了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 2. 请求SurfaceFlinger服务渲染Surface对象surface所描述的应用程序窗口的绘图表面。应用程序窗口的UI是绘制在SkCanvas对象nativeCanvas所描述的一块画布上的，而这块画布所使用的图形缓冲区是保存在Surface对象surface的内部的，因此，函数就调用Surface对象surface的成员函数unlockAndPost来请求SurfaceFlinger服务渲染这块图形缓冲区。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 接下来，我们就继续分析C++层的Surface类的成员函数unlockAndPost的实现，以便可以了解用来绘制应用程序窗口UI的图形缓冲区是如何渲染的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 12. Surface.unlockAndPost</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_40_8752947" name="code" class="cpp">status_t Surface::unlockAndPost()
+{
+    if (mLockedBuffer == 0) {
+        LOGE(&quot;Surface::unlockAndPost failed, no locked buffer&quot;);
+        return INVALID_OPERATION;
+    }
+
+    status_t err = mLockedBuffer-&gt;unlock();
+    LOGE_IF(err, &quot;failed unlocking buffer (%p)&quot;, mLockedBuffer-&gt;handle);
+
+    err = queueBuffer(mLockedBuffer.get());
+    LOGE_IF(err, &quot;queueBuffer (idx=%d) failed (%s)&quot;,
+            getBufferIndex(mLockedBuffer), strerror(-err));
+
+    mPostedBuffer = mLockedBuffer;
+    mLockedBuffer = 0;
+    return err;
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/libs/surfaceflinger_client/Surface.cpp中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;从前面的Step 3可以知道，应用程序窗口当前正在使用的图形缓冲区保存在Surface类的成员变量mLockedBuffer中，因此，Surface类的成员函数unlockAndPost的目标就是要将它交给SurfaceFlinger服务来渲染，这是通过调用另外一个成员函数queueBuffer来实现的。在前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7932268">Android应用程序请求SurfaceFlinger服务渲染Surface的过程分析</a>一文中，我们已经分析过Surface类的成员函数queueBuffer的实现了，它主要就是向应用程序窗口的待渲染图形缓冲区队列中添加一个图形缓冲区，然后再请请求SurfaceFlinger服务来渲染这个图形缓冲区。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;在渲染成员变量mLockedBuffer所描述的一个图形缓冲区之前，Surface类的成员函数unlockAndPost还会调用它的成员函数unlock来执行一个“解锁”操作。从前面的Step 3可以知道，成员变量mLockedBuffer所描述的一个图形缓冲区在交给应用程序窗口使用之前，它会被执行一个“锁定”的操作，即它的成员函数lock会被调用，因此，这里执行的“解锁”操作是与前面的“锁定”操作相对应的。事实上，对成员变量mLockedBuffer所描述的一个图形缓冲区进行锁定，主要是为了获得这个图形缓冲区的地址，是否真的要对个图形缓冲区进行锁定，是由HAL层模块Gralloc的实现来决定的。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 在请求SurfaceFlinger服务渲染了成员变量mLockedBuffer所描述的一个图形缓冲区之后，Surface类的成员函数unlockAndPost还会把成员变量mLockedBuffer所描述的一个图形缓冲区保存在另外一个成员变量mPostedBuffer中，表示这个图形缓冲区已经变成是正在渲染的图形缓冲区了，或者说是前端缓冲区了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 最后，Surface类的成员函数unlockAndPost就把成员变量mLockedBuffer的值设置为0，这样就可以将应用程序窗口下一次请求分配和使用的图形缓冲区保存在它里面。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;Surface类的成员变量mLockedBuffer指向的是一个GraphicBuffer对象，接下来我们就继续分析它的成员函数unlock的实现，以便可以了解它所描述的图形缓冲区的“解锁”过程。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; Step 13. GraphicBuffer.unlock</p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_41_7814855" name="code" class="cpp">status_t GraphicBuffer::unlock()
+{
+    status_t res = getBufferMapper().unlock(handle);
+    return res;
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;这个函数定义在文件frameworks/base/libs/ui/GraphicBuffer.cpp中。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;从前面的Step 4可以知道，GraphicBuffer类的成员变量handle用来描述当前正在处理的图形缓冲区的句柄，而GraphicBuffer类的成员函数getBufferMapper返回的是一个GraphicBufferMapper对象。有了这个GraphicBufferMapper对象之后，就可以调用它的成员函数unlock解锁成员变量handle所描述的一个图形缓冲区了。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;接下来，我们就继续分析GraphicBufferMapper类的成员函数unlock的实现。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Step 14.&nbsp;GraphicBufferMapper.unlock<br /></p><p></p><pre code_snippet_id="129036" snippet_file_name="blog_20131226_42_7956559" name="code" class="cpp">status_t GraphicBufferMapper::unlock(buffer_handle_t handle)
+{
+    status_t err;
+    if (sw_gralloc_handle_t::validate(handle) &lt; 0) {
+        err = mAllocMod-&gt;unlock(mAllocMod, handle);
+    } else {
+        err = sw_gralloc_handle_t::unlock((sw_gralloc_handle_t*)handle);
+    }
+    LOGW_IF(err, &quot;unlock(...) failed %d (%s)&quot;, err, strerror(-err));
+    return err;
+}</pre>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;这个函数定义在文件frameworks/base/libs/ui/GraphicBufferMapper.cpp。<p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; 从前面的Step 5可以知道，参数handle所描述的图形缓冲区是在HAL模块Gralloc中分配的，这个HAL模块Gralloc是由GraphicBufferMapper类的成员变量mAllocMod来描述的，因此，函数就终就会调用GraphicBufferMapper类的成员变量mAllocMod所描述的一个HAL模块Gralloc的成员函数unlock来解锁参数andle所描述的一个图形缓冲区。HAL模块Gralloc的成员函数unlock的实现可以参考前面<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/7747932">Android帧缓冲区（Frame Buffer）硬件抽象层（HAL）模块Gralloc的实现原理分析</a>一文，这里不再详述。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 至此，我们就分析完成Android应用程序窗口的渲染过程了，从中就可以看出：</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 1. 渲染Android应用程序窗口UI需要经过三步曲：测量、布局、绘制。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 2. Android应用程序窗口UI首先是使用Skia图形库API来绘制在一块画布上，实际地是绘制在这块画布里面的一个图形缓冲区中，这个图形缓冲区最终会被交给SurfaceFlinger服务，而SurfaceFlinger服务再使用OpenGL图形库API来将这个图形缓冲区渲染到硬件帧缓冲区中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;Android应用程序窗口的渲染过程分析完成之后，Android应用程序窗口的实现框架就分析完成了，重新学习请回到<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8170307">Android应用程序窗口（Activity）实现框架简要介绍和学习计划</a>一文中。</p><p>&nbsp;&nbsp; &nbsp; &nbsp; 在<a target=_blank target="_blank" href="http://blog.csdn.net/luoshengyang/article/details/8170307">Android应用程序窗口（Activity）实现框架简要介绍和学习计划</a>这一系列文章中，我们主要是从单个应用程序窗口的角度来分析的。但是，Android系统在运行的过程中，需要管理的是一系列的应用程序窗口，并且这些应用程序窗口的类型可能各不相同，并且相互影响。因此，Android的窗口管理系统是非常复杂的。在接下来的一个系列的文章中，我们就将详细地分析Android窗口管理服务WindowManagerService的实现，以便可以从系统的角度来分析应用程序窗口的实现。敬请关注！</p><p style="text-align: center;"><span style="font-size:14px;color:#cc0000;"><strong>老罗的新浪微博：<a target=_blank target="_blank" href="http://weibo.com/shengyangluo">http://weibo.com/shengyangluo</a>，欢迎关注！</strong></span><br /></p>   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   <link rel="stylesheet" href="http://static.blog.csdn.net/css/blog_detail.css" />
+
+    
+<!--172.16.140.13-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+ 
+
+        <div id="digg" ArticleId="8372924">
+            <dl id="btnDigg" class="digg digg_disable">
+               
+                 <dt>顶</dt>
+                <dd>30</dd>
+            </dl>
+            <dl id="btnBury" class="digg digg_disable">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>
+            </dl>
+        </div>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='/luoshengyang/article/details/8303098';">上一篇</span><a href="/luoshengyang/article/details/8303098" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">Android应用程序窗口（Activity）的绘图表面（Surface）的创建过程分析</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='/luoshengyang/article/details/8452527';">下一篇</span><a href="/luoshengyang/article/details/8452527" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">2012年的Android之旅：梦想、学习、坚持、自信、淡定</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+        <div class="similar_article"  style="display:none">
+                <h4>我的同类文章</h4>
+                <div class="similar_c"style="margin:20px 0px 0px 0px">
+                    <div class="similar_c_t">
+                                <label class="similar_cur">
+                                    <span  style="cursor:pointer"  onclick="GetCategoryArticles('838604','Luoshengyang','foot','8372924');">Android<em>（160）</em></span>
+                                </label>
+                    </div>
+                   
+                    <div class="similar_wrap tracking-ad" data-mod="popu_141"  style="max-height:195px;">
+                        <a href="http://blog.csdn.net" style="display:none">http://blog.csdn.net</a>
+                        <ul class="similar_list fl">                          
+                        </ul>
+
+                        <ul class="similar_list fr">                           
+                        </ul>
+                    </div>
+                </div>
+            </div>    
+    <script  type="text/javascript">
+        $(function () {
+            GetCategoryArticles('838604', 'Luoshengyang','foot','8372924');
+        });
+    </script>
+      
+</div>
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/Luoshengyang/svc/GetSuggestContent/8372924",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+<style>
+.blog-ass-articl dd {
+color: #369;
+width: 99%; /*修改行*/
+float: left;
+overflow: hidden;
+font: normal normal 12px/23px "SimSun";
+height: 23px;
+margin: 0;
+padding: 0 0 0 10px;
+margin-right: 30px;
+background: url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;
+}
+</style>
+
+ <link rel="stylesheet" href="http://static.blog.csdn.net/css/replace.css"/>
+
+<div id="relate" data-mod="popu_218"  class="tracking-ad">
+        <div class="relate_t">
+            <h3><span>参考知识库</span></h3>
+        </div>
+        <div class="relate_c">
+        </div>
+</div>
+ 
+
+<dl class="blog-ass-articl" id="res-relatived" > 
+    <div class="embody embody_b" id="libkeyparent"  style="display:none">
+            <span class="embody_t">更多资料请参考：</span>
+            <div class="embody_c" id="libkey"></div>
+    </div>
+
+
+     <dt><span>猜你在找</span></dt>    
+
+
+   
+
+
+    <div id="adCollege" style="width: 42%;float: left;"> 
+        <script src="http://csdnimg.cn/jobreco/job_reco.js" type="text/javascript"></script> 
+        <script type="text/javascript">
+            csdn.position.showEdu({
+                sourceType: "blog",
+                searchType: "detail",
+                searchKey: "8372924",
+                username: "",
+                recordcount: "5",
+                containerId: "adCollege" //容器DIV的id。 
+            });
+        </script> 
+    </div>  
+
+    
+     <div id="res"  data-mod="popu_36"  class="tracking-ad" style="width: 42%;float: left;margin-right: 30px;"></div>
+   
+</dl>
+
+
+<script type="text/javascript">
+    $(function () {
+        setTimeout(function () {
+            var searchtitletags = 'Android应用程序窗口（Activity）的测量（Measure）、布局（Layout）和绘制（Draw）过程分析' + ',' + $("#tags").html();
+            searchService({
+                index: 'blog',
+                query: searchtitletags,
+                from: 5,
+                size: 5,
+                appendTo: '#res',
+                url: 'recommend',
+                his: 2,
+                client: "blog_cf_enhance",
+                tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+            });
+        }, 500);
+    });    
+
+ </script>  
+
+    <div id="ad_cen">        
+<!-- 广告位开始 -->
+<ins data-revive-zoneid="71" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+<!-- 广告位结束 -->    </div>  
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '8372924';
+    var commentscount = 52;
+    var islock = false
+</script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/comment.js"></script>
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+<div class="tag_list" style="display:none"></div>
+  <script  language="javascript" type='text/javascript'>     
+      $(function(){
+              setTimeout(function(){
+                  $.get("/Luoshengyang/svc/GetTagContent",function(data){
+                      $(".tag_list").html(data).show();
+                  });     
+              });
+          },500);                       
+ </script> 
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+</script>
+ <script language="javascript" type="text/javascript" src="http://ads.csdn.net/js/async_new.js"></script>      
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/Luoshengyang" target="_blank">
+    <img src="http://avatar.csdn.net/5/6/E/1_luoshengyang.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/Luoshengyang" class="user_name" target="_blank">Luoshengyang</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=Luoshengyang','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                       <div class="ico_expert"  onclick="javascript:location='http://blog.csdn.net/experts/rule.html'" title="CSDN认证专家" style="cursor:pointer;width:60px;height:60px;background:url('http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhuanjiamiddle.png') no-repeat" ></div>
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/zhuanlandaren.png" onmouseover="m_over_m(this,2)" onmouseout="m_out_m()" alt="2" >
+                                            </a>
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="1" >
+                                            </a>
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhixing.png" onmouseover="m_over_m(this,6)" onmouseout="m_out_m()" alt="1" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>7646563次</span></li>
+    <li>积分：<span>37807</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog8.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：37807 </div>
+        </span>  </li>
+    <li>排名：<span>第62名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>161篇</span></li>
+    <li>转载：<span>0篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>7351条</span></li>
+</ul>
+</ul>
+</div>
+
+
+
+
+<div id="custom_column_6567056" class="panel">
+<ul class="panel_head"><span>博客公告</span></ul>
+<ul class="panel_body">
+<b><font color="red" size="2">本博客所有文章均为原创，欢迎交流，欢迎转载；转载请勿篡改内容，并且注明出处，禁止用于商业目的，谢谢！</font></b>
+</ul>
+</div>
+
+<div id="custom_column_36982715" class="panel">
+<ul class="panel_head"><span>新浪微博</span></ul>
+<ul class="panel_body">
+<iframe width="100%" height="75" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&amp;width=0&amp;height=75&amp;fansRow=1&amp;ptype=1&amp;speed=0&amp;skin=1&amp;isTitle=0&amp;noborder=0&amp;isWeibo=0&amp;isFans=0&amp;uid=1595248757&amp;verifier=e4445209&amp;dpc=1"></iframe>
+</ul>
+</div>
+
+<div id="custom_column_21664874" class="panel">
+<ul class="panel_head"><span>图书信息</span></ul>
+<ul class="panel_body">
+<font color="red"><b>书名：</b></font>
+<p>《Android系统源代码情景分析》</p>
+
+<p><a href="http://wenku.it168.com/d_000574719.shtml" target="_blank">试读请点击</a></p>
+
+<p><font color="red"><b>出版社：</b></font></p>
+<p>电子工业出版社</p>
+
+<p><font color="red"><b>网店：</b></font></p>
+
+<p>1. <a href="http://product.dangdang.com/23837163.html" target="_blank">当当网（满100减20，满200减50）</a></p><p></p>
+
+<p>2. <a href="http://item.jd.com/11838754.html" target="_blank">京东网（满99减20）</a></p><p></p>
+
+<p>3. <a href="http://www.amazon.cn/Android%E7%B3%BB%E7%BB%9F%E6%BA%90%E4%BB%A3%E7%A0%81%E6%83%85%E6%99%AF%E5%88%86%E6%9E%90-%E7%BD%97%E5%8D%87%E9%98%B3/dp/B019FSLVUU" target="_blank">亚马逊网（满100减20，满200减50）</a></p><p></p>
+
+<p>4. <a href="http://product.china-pub.com/4901762" target="_blank">互动出版网</a></p><p></p>
+
+<p>5. <a href="http://product.suning.com/141811846.html" target="_blank">苏宁易购网</a></p><p></p>
+
+<p><a href="http://s.etao.com/search?q=Android%CF%B5%CD%B3%D4%B4%B4%FA%C2%EB%C7%E9%BE%B0%B7%D6%CE%F6&eq=Android%25E7%25B3%25BB%25E7%25BB%259F%25E6%25BA%2590%25E4%25BB%25A3%25E7%25A0%2581%25E6%2583%2585%25E6%2599%25AF%25E5%2588%2586%25E6%259E%2590&initiative_id=wwwetao_20160422&spm=1002.1.8.1" target="_blank">比一比谁更实惠</a></p>
+
+<p><font color="red"><b>号外：</b></font></p>
+
+<p>本书繁体版已经成功输出到台湾</p>
+
+<p></p>
+</ul>
+</div>
+
+<div id="custom_column_21603386" class="panel">
+<ul class="panel_head"><span>联系方式</span></ul>
+<ul class="panel_body">
+<font color="red"><b>新浪微博：</b></font>
+<p><a href="http://weibo.com/shengyangluo" target="_blank">http://weibo.com/shengyangluo</a></p><p></p>
+
+<font color="red"><b>QQ交流群：</b></font>
+<p>130112760</p>
+</ul>
+</div><div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>博客专栏</span></ul>
+    <ul class="panel_body" id="sp_column">
+    <table cellpadding="0" cellspacing="0"><tr>
+    <td style="padding:10px 10px 0 0;">
+    <a href="http://blog.csdn.net/column/details/androidluo.html" target="_blank"><img src="http://img.blog.csdn.net/20151123174935442" style="width:75px;height:75px;" /></a>
+    </td>
+    <td style="padding:10px 0; vertical-align:top;">
+    <a href="http://blog.csdn.net/column/details/androidluo.html" target="_blank">老罗的Android之旅</a>
+    <p>文章：161篇</p>
+    <span>阅读：7646733</span>
+    </td>
+    </tr></table>
+    </ul>
+</div><div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/luoshengyang/article/details/8923485" title="那两年炼就的Android内功修养">那两年炼就的Android内功修养</a><span>(266397)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6618363" title="Android进程间通信（IPC）机制Binder简要介绍和学习计划">Android进程间通信（IPC）机制Binder简要介绍和学习计划</a><span>(242066)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6559955" title="在Ubuntu上下载、编译和安装Android最新源代码">在Ubuntu上下载、编译和安装Android最新源代码</a><span>(207197)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6689748" title="Android应用程序启动过程源代码分析">Android应用程序启动过程源代码分析</a><span>(191152)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6567257" title="Android硬件抽象层（HAL）概要介绍和学习计划">Android硬件抽象层（HAL）概要介绍和学习计划</a><span>(144766)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6568411" title="在Ubuntu上为Android系统编写Linux内核驱动程序">在Ubuntu上为Android系统编写Linux内核驱动程序</a><span>(137866)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6557518" title="Android学习启动篇">Android学习启动篇</a><span>(122469)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6566662" title="如何单独编译Android源代码中的模块">如何单独编译Android源代码中的模块</a><span>(120395)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6564592" title="在Ubuntu上下载、编译和安装Android最新内核源代码（Linux Kernel）">在Ubuntu上下载、编译和安装Android最新内核源代码（Linux Kernel）</a><span>(117114)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6621566" title="浅谈Service Manager成为Android进程间通信（IPC）机制Binder守护进程之路">浅谈Service Manager成为Android进程间通信（IPC）机制Binder守护进程之路</a><span>(114789)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/luoshengyang/article/details/6689748" title="Android应用程序启动过程源代码分析">Android应用程序启动过程源代码分析</a><span>(373)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/8923485" title="那两年炼就的Android内功修养">那两年炼就的Android内功修养</a><span>(319)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6559955" title="在Ubuntu上下载、编译和安装Android最新源代码">在Ubuntu上下载、编译和安装Android最新源代码</a><span>(289)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/8116866" title="《Android系统源代码情景分析》一书勘误">《Android系统源代码情景分析》一书勘误</a><span>(261)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6882903" title="Android应用程序键盘（Keyboard）消息处理机制分析">Android应用程序键盘（Keyboard）消息处理机制分析</a><span>(205)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6568411" title="在Ubuntu上为Android系统编写Linux内核驱动程序">在Ubuntu上为Android系统编写Linux内核驱动程序</a><span>(188)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/6580267" title="在Ubuntu上为Android系统内置Java应用程序测试Application Frameworks层的硬件服务">在Ubuntu上为Android系统内置Java应用程序测试Application Frameworks层的硬件服务</a><span>(185)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/7409491" title="Android博客文章整理">Android博客文章整理</a><span>(176)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/8452527" title="2012年的Android之旅：梦想、学习、坚持、自信、淡定">2012年的Android之旅：梦想、学习、坚持、自信、淡定</a><span>(175)</span>
+</li>
+<li>
+<a href="/luoshengyang/article/details/12957169" title="《老罗的Android之旅》导读PPT">《老罗的Android之旅》导读PPT</a><span>(157)</span>
+</li>
+</ul>
+</div>
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/luoshengyang/article/details/51216442#comments">Chromium网页Layer Tree同步为Pending Layer Tree的过程分析</a>
+    <p style="margin:0px;"><a href="/u012568263" class="user_name">u012568263</a>:
+1. &quot;SchedulerStateMachine类的成员函数SetNeedsManageTiles...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/51216442#comments">Chromium网页Layer Tree同步为Pending Layer Tree的过程分析</a>
+    <p style="margin:0px;"><a href="/u012568263" class="user_name">u012568263</a>:
+這幾天還沒靜下心看完這一篇文章。1. &quot;获得负责执先光栅化操作的TileManager对象之后&quot;，這...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/51216442#comments">Chromium网页Layer Tree同步为Pending Layer Tree的过程分析</a>
+    <p style="margin:0px;"><a href="/sofinelulu" class="user_name">sofinelulu</a>:
+@Luoshengyang:好的，十分感谢！！
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/51216442#comments">Chromium网页Layer Tree同步为Pending Layer Tree的过程分析</a>
+    <p style="margin:0px;"><a href="/Luoshengyang" class="user_name">Luoshengyang</a>:
+@sofinelulu:如果是独立的基于Chromium的浏览器App，你可以认为网页渲染和HwUI...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/51216442#comments">Chromium网页Layer Tree同步为Pending Layer Tree的过程分析</a>
+    <p style="margin:0px;"><a href="/sofinelulu" class="user_name">sofinelulu</a>:
+@Luoshengyang:谢谢您的回复。今天又看了一些代码，分析Transform变换（往下调用）...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/6618363#comments">Android进程间通信（IPC）机制Binder简要介绍和学习计划</a>
+    <p style="margin:0px;"><a href="/Luoshengyang" class="user_name">Luoshengyang</a>:
+@oTingFengXiYu:别喷了，省点力气，先把这个系列的文章看完了再说，要例子去找书看。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/6618363#comments">Chromium网页Layer Tree同步为Pending Layer Tree的过程分析</a>
+    <p style="margin:0px;"><a href="/Luoshengyang" class="user_name">Luoshengyang</a>:
+@sofinelulu:这篇文章（http://blog.csdn.net/luoshengyang...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/6689748#comments">Android应用程序启动过程源代码分析</a>
+    <p style="margin:0px;"><a href="/XTASK" class="user_name">XTASK</a>:
+看的JJ疼
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/19023609#comments">Android源代码编译命令m/mm/mmm/make分析</a>
+    <p style="margin:0px;"><a href="/u011022083" class="user_name">u011022083</a>:
+一个字：赞！！！
+    </p>
+    </li>
+    <li>
+   
+         <a href="/luoshengyang/article/details/19023609#comments">Android进程间通信（IPC）机制Binder简要介绍和学习计划</a>
+    <p style="margin:0px;"><a href="/oTingFengXiYu" class="user_name">oTingFengXiYu</a>:
+太高深了，完全看不懂，也没看到想要的答案，最后进程跟进程间是如何实现通信的例子呢，这个倒像是一个学术...
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+ </div>   
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+<script type="text/javascript" src="http://c.csdnimg.cn/rabbit/cnick/cnick.js"></script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/newblog.min.js"></script>
+
+
+<script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=1134701"></script>
+<script type="text/javascript" src="http://static.blog.csdn.net/scripts/JavaScript1.js"></script>
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+    <script type="text/javascript" src="http://js.tongji.linezing.com/3602465/tongji.js"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script>
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="http://ad.csdn.net/scripts/ad-blog.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+    </div>
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnId="header_notice_num" wrapId="note1" count="5" subCount="5" type="text/javascript" src="http://c.csdnimg.cn/public/common/toolbar/js/toolbar.js"></script>
+     <!--new top-->
+   
+    <link href="http://c.csdnimg.cn/comm_ask/css/ask_float_block.css" type="text/css" rel="stylesheet" />
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/wmd.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/showdown.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/libs/prettify.js'></script>
+    <script language='JavaScript' type='text/javascript' src='http://c.csdnimg.cn/comm_ask/js/apps/ask_float_block.js'></script>
+   
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+</body>
+</html>   
+ 
