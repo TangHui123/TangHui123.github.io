@@ -5,15 +5,15 @@ markdown: kramdown
 
 # Author
 author: 
-  name: Billy Chen Xiao
-  email: billy.chenxiao@gmail.com
-  link: chenxiao.cc
-  github: http://github.com/chenxiaocc
+  name: Tang Hui
+  email: 839283929@qq.com
+  link: http://www.tanghui123.com/
+  github: http://github.com/TangHui123
 
 # Site
-title: chen xiao
-description: Blog of Billy Chen Xiao
-url: http://chenxiao.cc
+title: 小灰灰
+description: Blog of Tang Hui
+url: hhttp://www.tanghui123.com/
 rss_url: /pages/atom.xml
 
 # gavatar Favicon
@@ -23,7 +23,7 @@ favicon: /public/img/deer3.png
 # google analytics
 ga:
   id: UA-54262064-1 
-  url: chenxiao.cc
+  url: http://www.tanghui123.com/
 
 # default active
 active: 读书
